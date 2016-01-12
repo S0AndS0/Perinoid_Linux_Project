@@ -1,0 +1,47 @@
+###	Sources of information	###
+
+## Tor exit node RPi guide
+#	http://www.instructables.com/id/Tor-Pi-Exit-Relay-without-getting-raided/?ALLSTEPS
+## Notice : firewall on RPi must allow the following ports out and in
+#	iptables -A OUTPUT -s 127.0.0.1 --dport 9001 -j ACCEPT
+#	iptables -A OUTPUT -s 127.0.0.1 --dport 9030 -j ACCEPT
+#	iptables -A INPUT --dport 9001 -j ACCEPT
+#	iptables -A INPUT --dport 9030 -j ACCEPT
+
+## Tor exit node configuration full example
+#	https://raw.githubusercontent.com/torservers/server-config-templates/master/torrc
+## Tor exit node init start/stop script full example
+#	https://gist.githubusercontent.com/7adietri/9122199/raw/4ed71b894eddbdfb0e241fa06bb583a19f0ccc89/tor
+
+## Tor relay in chroot full guide pluse more
+#	https://wiki.archlinux.org/index.php/Tor
+
+## Tor bridge setup on OpenWRT compleate guide
+#	https://trac.torproject.org/projects/tor/wiki/doc/OpenWRT
+
+## Tor multi-init services snipit example
+#	https://lists.torproject.org/pipermail/tor-relays/2012-August/001551.html
+
+## Tor client with obfsproxy bridge support
+#	https://tor.stackexchange.com/a/6049
+
+## Tor relay/bridge with monthly quota cap guide
+#	http://drwho.virtadpt.net/archive/2011/03/05/running-a-tor-node-from-amazons-elastic-computing-cloud
+
+## Tor hidden web service guide
+#	https://www.thecthulhu.com/setting-up-a-hidden-service-with-nginx/
+
+## Tor ssh server with stealth guide
+#	http://www.nurdletech.com/linux-notes/ssh/hidden-service.html
+
+## Tor selinux settings
+#	https://www.bentasker.co.uk/documentation/linux/308-building-a-tor-hidden-service-from-scratch-selinux
+
+## Multi client tor setup with proxy
+#	https://evilshit.wordpress.com/2013/12/18/how-to-install-privoxy-and-combine-it-with-tor/
+
+## Tor Bind9 DNS onion resolver example
+#	https://trac.torproject.org/projects/tor/wiki/doc/Preventing_Tor_DNS_Leaks
+
+## Tor Bind9 DNS instructions
+#	https://trac.torproject.org/projects/tor/wiki/doc/BIND

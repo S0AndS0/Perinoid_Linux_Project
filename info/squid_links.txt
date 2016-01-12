@@ -1,0 +1,10 @@
+###	Sources of information	###
+
+## Squid download sources
+#	http://www.squid-cache.org/Versions/
+
+## Squid compile source instructions
+#	http://wiki.squid-cache.org/SquidFaq/CompilingSquid
+
+## Squid install source instructions
+#	http://wiki.squid-cache.org/SquidFaq/InstallingSquid

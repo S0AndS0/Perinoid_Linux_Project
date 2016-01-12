@@ -1,0 +1,10 @@
+###	Sources of information	###
+
+## Polipo github source
+#	https://github.com/jech/polipo
+
+## Polipo FAQ includes privoxy with polipo configurations examples
+#	http://www.pps.univ-paris-diderot.fr/~jch/software/polipo/faq.html
+#	Point browser to Privoxy (localhost:8118)
+#	Point privoxy to polipo (forward /localhost:8123) within privoxy config file
+#	Point polipo to Tor (socksParentProxy localhost:9050)

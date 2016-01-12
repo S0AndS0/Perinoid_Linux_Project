@@ -1,0 +1,7 @@
+###	Sources of information	###
+
+## Nginx server hardening tips
+#	http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html
+
+## Nginx server hardening configuration file full examples
+#	https://calomel.org/nginx.html

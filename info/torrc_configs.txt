@@ -1,0 +1,126 @@
+On most Linux systems the torrc (configuration) files are found with
+ ls -hal /etc/tor/
+On most Android systems the torrc (configuration) files are found with
+ ls -al /data/data/org.torproject.android/app_bin/
+By default on Linux systems you will have one [torrc] file and on Android you will have two [torrc] and [torrc.custom] files.
+This script pack will not touch those files, instead new torrc files with custom names will be generoated based upon arguments passed.
+Regardless the following lines with explanations maybe found or applied to any torrc file.
+# Not to say that any configuration should be used without forthought. And there are some
+# minor differances in captialization between these types of systems. In such cases those
+# configuration lines that differ will be noted as to what system expects.
+
+## Linux/Android define [1] client only or [0] to enable relay, bridge, service, or exit
+ ClientOnly 1
+### Default [0] as all default configurations for Tor at install are only enabled for client
+#	connections. Used within this secript pack to spicifficly enable or disable additional
+#	Tor service options if "client" type is chosen. This feature even when set to [0] still
+#	relies upon [ORPort] [ExitORPort] or [DirPort] to be configured if more than client
+#	operations are desired.
+
+## Linux/Android dissable network access in and out of Tor services
+ DissableNetowrk 0
+### Default [0] to allow network connections, [1] maybe used to test configurations and or
+#	generate [domain.onion] URL without straining the Tor network. Controllers also make
+#	use of this configuration line to avoid using the network untill Tor is fully configrued.
+
+## Linux/Android deffine the advertized bandwith limitations of your non-client Tor services
+ MaxAdvertisedBandwidth <N> bytes|KBytes|MBytes|GBytes|KBits|MBits|GBits
+### If set then Tor will not advertise more than given amount of bandwidth for [BandwidthRate]
+#	Server (exit node) operators who have data caps set theses configuration lines to avoid
+#	overages or service abuse. Additionally those sharing bandwidth may set these configurations
+#	to avoid allowing Tor to hog all the network traffic.
+
+## Linux/Android define [1] to count privet (client or local bridge) bandwidth with above limitations
+ CountPrivateBandwidth 0
+### Default [0] if set to [1] then local aswell as external IP addresses will be rate limited. Usefull
+#	for debugging and or rate-limiting, or, if sharing a public bridge with client or local bridge
+#	on a bandwith limited network; VPS, home network and mobile network users of Tor will likely
+#	wish to explore these options to prevent overages.
+
+## Linux/Android define list of ports that have long lived streams, such as remote shell
+ LongLivedPORTS 21 22 ...
+### This configuration line is used by client and server Tor connections to define that
+#	circuits used with these ports should be built from nodes that have high up time.
+#	Doing so reduces the risks of a node disconecting mid-stream and lowers the chances
+#	of having to repeaditly reconect. Default list of ports assumed to be long lived are;
+#	21 22 706 1863 5050 5222 5223 6523 6667 6697 8300
+
+## Linux/Android define how long to keep un-used circuits for in seconds
+ CircuitIdleTimeout 60
+### Default is one hour to keep un-used circuits or circuits not curently reciving data if
+#	running a service. For clients this is likely safe as default but for serivces that
+#	care for location privacy this is best to modify.
+
+## Linux/Android define how many seconds till detatch from current circuit to build new one
+ CircuitStreemTimeout 0
+### Default is [0] to auto close streams, however, if on a slower network connection you may
+#	wish to consider setting to [60] or so.
+
+## Linux/Android restrict or allow circuits that lie within same IP address range
+ EnforceDistinctSubnets 0|1
+### If [1] Tor circuits will not be built if it shares exsisting address range, ie [.../16]
+
+## Linux/Android redirect address to spicific exit route
+  MapAddress Origianal_URL_or_IP_target New_URL_or_IP_Exit
+### Note [*] are prermissible to route sub-domains such as [mail.domain.suffix] could be
+#	expressed as [*.domain.suffix] to route everything from that domain through a
+#	specified exit node or proxy. Full example usage of [*] expancion bellow;
+# MapAddress *.domain.sufix *.domain.sufix.torserver.exit
+
+## Linux/Android define socks proxy policies
+SocksPolicy policy,policy
+### Set an entrance policy for Tor services to limit what connections may attach to [SocksPort]
+#	and [DNSPort] sockets. These policies have the same syntax as exit policies bellow.
+
+## Linux socks proxy listen IP address and port, seperated by colan ":" DEPRECATED
+SocksListenAddress 127.0.0.1:9050
+## Android variant
+SOCKSListenAddress ip_address:port
+## Notes:	The above configuration dictates what address and port Tor
+#	will atempt to bind to. Default [127.0.0.1] or [localhost] however this
+#	maybe declaired multiple times to bind to more addresses. This configuration
+#	option has been deprecated as of 0.2.3.x-alpha and "SOCKSPort" is prefered.
+#	If SOCKSPort is used with the above line then above should only be an IP
+#	and SOCKSPort may only be a port number.
+
+## Linux socks proxy listen IP address and port, seperated by colan ":" PREFERED
+SocksPort 9050
+## Android variant
+SOCKSPort 127.0.0.1:9050
+## Notes:	The above dictates what address, port, and flags to use when allowing
+#	connections to Tor processes. Default is [9050] for most systems, however, on
+#	bridge only systems this should be [0] to prevent local processes from connecting.
+#	Additionally [auto] maybe set to have Tor attempt to react to sysetm processes
+#	requesting Tor routing access. And flags beyond the above options maybe applied
+#	to further shape network traffic though Tor.
+## Isolation flags for [SocksPort]
+
+ IsolateClientAddr
+### Do Not share circuits with streams from a different client address. On by default, 
+#	maybe dissabled with [NoIsolateClientAddr]
+
+ IsolateSOCKSAuth
+### Do Not share circuits with streams that have different SOCKS authentication methods
+
+ IsolateClientProtocol
+### Do Not share circuits with streams that have different SOCKS protocols. Reconized
+#	protocols auto-seperated by Tor are; SOCKS4 SOCKS5 TransPort NATDPort DNSPort
+
+ IsolateDestPort
+### Do Not share circuits with streams targeting different destination ports. For example
+#	http [80] and https [443] will use different circuits with above.
+
+ IsolateDestAddr
+### Do Not share circuits with streams targeting different destination addresses.
+
+#_#_# Client spicific confguration options #_#_#
+## Linux/Android dissallow [1] or allow [0] single hop circuits to be built by Tor
+ ExcludeSingleHopRelays 1
+### Default [1] to dissallow signle hop nodes. If [0] then Tor will allow circuits
+#	to be built with nodes that have [AllowSingleHopExits] configuration line
+#	set within thier own torrc file. Generally best to leave as [1] because
+#	utilizing this little known feature may make your connections stand out
+#	and easier to trace back to your location.
+
+## Linux/Android define entrance bridge(s) to use for first hop into Tor network
+

@@ -1,0 +1,5 @@
+
+## Guide to assigning repo lists to spiciffic target release
+#	http://fixmynix.com/apt-pinning-install-and-upgrade-debian-packages-selectively/
+## Neat trick to removing orphened apt packages
+#	https://github.com/OpenTreeOfLife/germinator/wiki/Debian-upgrade-notes:-jessie-and-openjdk-8

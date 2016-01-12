@@ -1,0 +1,32 @@
+###	Sources of information	###
+## Note: firejail depends on "m4" and "make" as well as "git-core" to be installed prior to using [${_script_name}]
+
+## Firejail Wordpress (MySQL & Ngnix)
+#	https://www.digitalocean.com/community/tutorials/how-to-use-firejail-to-set-up-a-wordpress-installation-in-a-jailed-environment
+
+## Debs
+#	Firejail 32bit
+#	http://sourceforge.net/projects/firejail/files/firejail/firejail_0.9.34_1_i386.deb
+#	Firetools 32bit
+#	http://sourceforge.net/projects/firejail/files/firetools/firetools_0.9.30_1_i386.deb
+#	Firejail 64bit
+#	http://sourceforge.net/projects/firejail/files/firejail/firejail_0.9.34_1_amd64.deb
+#	Firetools 32bit
+#	http://sourceforge.net/projects/firejail/files/firetools/firetools_0.9.30_1_amd64.deb
+## Sources
+#	Firejail
+#	https://github.com/netblue30/firejail
+#	Firetools
+#	https://github.com/netblue30/firetools
+
+## To add to repo list try
+#	echo 'deb http://ftp.de.debian.org/debian stretch main' | sudo tee -a /etc/apt/sources.list.d/sid_stretch
+#	sudo apt-get update && sudo apt-get install firejail
+
+## Command option examples
+#	# nginx
+#	firejail --caps.keep=chown,net_bind_service,setgid,setuid --seccomp /etc/init.d/nginx start
+#	# apache2
+#	firejail --caps.keep=chown,sys_resource,net_bind_service,setuid,setgid --seccomp /etc/init.d/apache2 start
+#	#
+#	

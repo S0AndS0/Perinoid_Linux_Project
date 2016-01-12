@@ -1,0 +1,7 @@
+###	Sources of information	###
+
+## Privoxy install source and source install configuration instructions
+#	http://www.privoxy.org/user-manual/installation.html
+
+## Privoxy add user group for source installation
+#	https://www.linuxquestions.org/questions/linux-newbie-8/adding-privoxy-user-for-source-build-856545/

@@ -1,0 +1,5 @@
+###	Sources of information	###
+
+## Bash test two values
+#	https://unix.stackexchange.com/questions/63634/if-statement-with-2-variables-bash
+

@@ -1,0 +1,7 @@
+###	Sources of information	###
+
+## Bind9 install from source
+#	http://linux-sxs.org/internet_serving/bind9.html
+
+## Bind9 source host mirrors
+#	http://www.bind9.net/download
