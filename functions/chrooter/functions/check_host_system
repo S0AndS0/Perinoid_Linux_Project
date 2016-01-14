@@ -1,0 +1,15 @@
+_Assigne_Native_Arch(){
+	_native_arch=$(uname --machine | grep -oE "armv7|armv6|armv5|amd64|i386" | awk '/[arm]|[amd64]|[i386]/{print}')
+}
+_Assigne_Native_Dist(){
+	_native_flave=$(cat /etc/*-release | grep -v "VERSION" | awk '/ID=/{gsub("="," "); print $2}')
+}
+_Assigne_Native_Mirror(){
+#	_native_mirror='http://mirrordirector.raspbian.org/rapbian'
+	_mirror_args "${_native_flave}"
+	_native_mirror="${_dist_mirror}"
+	_native_key="${_dist_key}"
+}
+_Assigne_Native_Version(){
+	_native_vers=$(cat /etc/*-release | awk '/VERSION=/{print $2}' | sed 's/"//g' | sed 's/(//' | sed 's/)//')
+}

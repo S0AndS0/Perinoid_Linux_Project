@@ -1,0 +1,6 @@
+deb http://http.kali.org/kali sana main non-free contrib
+deb-src http://http.kali.org/kali sana main non-free contrib
+deb http://security.kali.org/kali-security sana/updates main contrib non-free
+deb-src http://security.kali.org/kali-security sana/updates main contrib non-free
+#deb http://http.kali.org/kali kali-rolling main contrib non-free
+#deb http://security.kali.org/kali-security kali-rolling/updates main contrib non-free

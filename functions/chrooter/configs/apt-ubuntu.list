@@ -1,0 +1,6 @@
+deb http://ftp.us.debian.org/debian ubuntu main contrib non-free
+deb-src http://ftp.us.debian.org/debian ubuntu main contrib non-free
+deb http://ftp.us.debian.org/debian ubuntu-updates main contrib non-free
+deb-src http://ftp.us.debian.org/debian ubuntu-updates main contrib non-free
+deb http://security.debian.org/debian-security ubuntu/updates main contrib non-free
+deb-src http://security.debian.org/debian-security ubuntu/updates main contrib non-free

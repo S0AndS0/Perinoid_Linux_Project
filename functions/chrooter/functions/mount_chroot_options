@@ -1,0 +1,107 @@
+_full_chroot_stage_one(){
+	_arch="${1:?}"
+	## Note this should be the same value as ${_Distro_Name} var
+	_dist="${2:?}"
+	_ch_dir="${3:?}"
+	_mirror="${4:?}"
+	_set_ch_arch "${_arch}"
+	echo "## Checking that dependancies are installed to host"
+	Install_Depends_List dchroot,debootstrap
+	if [ "${_arch}" = "${_native_arch}" ]; then
+		echo "# debootstrap --variant=buildd --arch ${_charch} ${_dist} ${_ch_dir} ${_mirror}"
+#		debootstrap --variant=buildd --arch ${_charch} ${_dist} ${_ch_dir} ${_mirror}
+	elif [ "${_arch}" != "${_native_arch}" ]; then
+		echo "# debootstrap --variant=buildd --arch --foreign ${_charch} ${_dist} ${_ch_dir} ${_mirror}"
+#		debootstrap --variant=${_arg_variant:-buildd} --arch ${_charch} --foreign ${_dist} ${_ch_dir} ${_mirror}
+	fi
+}
+_full_chroot_stage_two(){
+	_ch_dir="${1:-/tmp/test}"
+#	export LANG=C
+	## Copy networking configuration from host to chroot
+#	cp --parents /etc/hosts ${_ch_dir}
+#	cp --parents /etc/resolv.conf ${_ch_dir}
+#	mkdir -p ${_ch_dir}/etc/apt
+#	cp ${_dir}/configs/apt-${_dist}.list ${_ch_dir}/etc/apt/sources.list
+#	cp ${_dir}/configs/apt.conf ${_ch_dir}/etc/apt/apt.conf
+#	cp ${_dir}/configs/third_stage.sh ${_ch_dir}/third_stage.sh
+#	cp /etc/network/interfaces ${_ch_dir}/etc/network/interfaces
+#	echo chroot-${_arg_dist} > ${_ch_dir}/etc/hostname
+##	chroot ${_ch_dir} /bin/bash /debootstrap/debootstrap --second-stage
+#	schroot -c ${_Distro_Name} -u root /debootstrap/debootstrap --second-stage
+#	mount -t proc proc ${_ch_dir}/proc
+#	mount -o bind /dev/ ${_ch_dir}/dev
+#	mount -o bind /dev/pts ${_ch_dir}/dev/pts
+#	mount -t sysfs sysfs ${_ch_dir}/sys
+
+	echo "# cp /etc/hosts ${_ch_dir}/etc/hosts"
+	echo "# cp /etc/resolv.conf ${_ch_dir}/etc/resolv.conf"
+	echo "# cp ${_dir}/configs/apt-${_dist}.list ${_ch_dir}/etc/apt/sources.list"
+	echo "# cp ${_dir}/configs/apt.conf ${_ch_dir}/etc/apt/apt.conf.d/71-no-recommends"
+	echo "# cp ${_dir}/configs/third_stage.sh ${_ch_dir}/third_stage.sh"
+	echo "# cp /etc/network/interfaces ${_ch_dir}/etc/network/interfaces"
+	echo "# echo chroot-${_arg_dist} > ${_ch_dir}/etc/hostname"
+
+	echo "## Installing file system"
+
+#	echo "# chroot ${_ch_dir} /bin/bash /debootstrap/debootstrap --second-stage"
+	echo "# schroot -c ${_Distro_Name} -u root /debootstrap/debootstrap --second-stage"
+	## Mount proc and sys to ${_ch_dir}
+	echo "# mount proc ${_ch_dir}/proc -t proc"
+	echo "# mount sysfs ${_ch_dir}/sys -t sysfs"
+
+	## login to root user of chroot enviroment
+	_send_chroot_command "${_ch_dir}" "${_arg_stage_three:-$_dir/configs/third_stage.sh}"
+	if [ "${#_arg_exicute}" != "0" ]; then
+		_send_chroot_command "${_ch_dir}" "${_arg_exicute}"
+	fi
+}
+_send_chroot_command(){
+#	_ch_dir="${1:?Error [_send_chroot_command] : no \$_ch_dir arg}"
+	_ch_dist="${1:?Error [_send_chroot_command] : no \$_ch_dist arg}"
+	_command="${2:?Error [_send_chroot_command] : no \$_command args}"
+	if [ "${#_command}" -gt "0" ]; then
+#		echo "# chroot ${_ch_dir} /bin/bash -c \"su --c ${_command}\" "
+#		chroot ${_ch_dir} /bin/bash -c "su --c ${_command}"
+		echo "# schroot ${_ch_dist} -u ${_ch_user:-root} ${_command//"\"} "
+#		schroot -c ${_ch_dist} -u ${_ch_user:-root} -- ${_command//"/\"}
+	fi
+}
+_mount_full_chroot(){
+#	_ch_dir="${1:?}"
+	_ch_dist="${1:?}"
+	mount proc ${_ch_dir}/proc -t proc
+	mount sysfs ${_ch_dir}/sys -t sysfs
+	## Copy networking configuration from host to chroot
+#	cp /etc/hosts ${_ch_dir}/etc/hosts
+	## login to root user of chroot enviroment
+	if [ "${#_arg_exicute}" != "0" ]; then
+#		_send_chroot_command "${_ch_dir}" "${_arg_exicute}"
+		_send_chroot_command -c "${_ch_dist}" "${_arg_exicute}"
+	elif [ "${#_arg_exicute}" = "0" ]; then
+#		chroot ${_ch_dir} /bin/bash
+		schroot -c ${_ch_dist}
+	fi
+}
+_un_mount_full_chroot(){
+	_ch_dir="${1:?}"
+	_ch_dist="${2:?}"
+	schroot -c ${_ch_dist} --end-session
+	umount ${_ch_dir}/proc
+	umount ${_ch_dir}/sys
+	umount ${_ch_dir}
+}
+_set_ch_arch(){
+	_arg_arch="$1"
+	case "${_arg_arch}" in
+		armh*|armv7*)		_charch="armhf" ;;
+		arme*|armv5|armv6)	_charch="armel" ;;
+		amd64)			_charch="amd64" ;;
+		i386)			_charch="i386" ;;
+		powerpc)		_charch="powerpc" ;;
+		*)
+			echo "Error [_set_ch_arch] reading \${_arg_arch}"
+			exit 2
+		;;
+	esac
+}

@@ -1,0 +1,92 @@
+Run_Parsed_Options(){
+	echo "## Setting Host system variables for checking against arguments passed to ${_self}..."
+	if [ "${#_arg_apps}" = "0" ]; then
+		_Assigne_Native_Arch
+		_Assigne_Native_Dist
+		_Assigne_Native_Mirror
+		_Assigne_Native_Version
+		echo "#	Host archetecture reads [${_native_arch}]"
+		echo "#	Host distrobution flavor reads [${_native_dist}]"
+		echo "#	Host mirror reads [${_native_mirror}]"
+		echo "#	Host distrobution base reads [${_native_vers}]"
+		if [ "${#_arg_dist}" = "0" ]; then
+			echo "#	Reading mirror options..."
+			echo "## Notice \$_arg_dist not set"
+			echo "#	Checking if ${_self} can auto set with..."
+			echo "#	Mirror_Args_Parser ${_native_dist}"
+			Mirror_Args_Parser "${_native_dist}"
+			_arg_dist="${_native_flave}"
+		fi
+		Mirror_Args_Parser "${_arg_dist}"
+		_ch_mirror="${_dist_mirror}"
+		_ch_key="${_dist_key}"
+		echo "## Reading directory options..."
+		_is_dir "${_arg_dir:-/tmp/$_arg_dist}" "write"
+		echo "#	Setting internal variables for configuration file write"
+		_Distro_Name="${_arg_dist_nick}"
+		_Distro_full_Name="${_arg_dist} ${_arg_flave:-Custom or Testing}"
+		_chroot_mnt_point="${_arg_dir:-/tmp/$_arg_dist}"
+		_chroot_mnt_priority="${_arg_priority:-3}"
+		_chroot_users="${_arg_user:-$USER}"
+		_chroot_groups="${_arg_user:-$USER}"
+		_schroot_config_file="${_arg_config:-/etc/schroot/schroot.conf}"
+		_charch="${_arg_arch:-$_native_arch}"
+		echo "## Starting chroot commands"
+		echo "## Appending settings to [${_schroot_config_file}]"
+# | tee -a ${_schroot_config_file}
+		echo "# Custom settings applied : ${_now}"
+		echo "[${_Distro_Name}]"
+		echo "description=${_Distro_full_Name}"
+		echo "location=${_chroot_mnt_point}"
+		echo "priority=${_chroot_mnt_priority}"
+		case ${_charch} in
+			arm*)
+				echo "personality=linux"
+			;;
+			i386*)
+				echo "personality=linux32"
+			;;
+			amd64*)
+				echo "personality=linux64"
+			;;
+			powerpc*)
+			;;
+				echo "personality=linux"
+			*)
+				echo "## Error settng personality"
+			;;
+		esac
+		if [ "${_chroot_users}" = "root" ]; then
+			echo "users=${_chroot_users}"
+		else
+			echo "users=root,${_chroot_users}"
+		fi
+		if [ "${_chroot_groups}" = "root" ]; then
+			echo "groups=${_chroot_groups}"
+		elif
+			echo "groups=root,${_chroot_groups}"
+		fi
+		if [ "${_chroot_groups}" = "root" ]; then
+			echo "root-users=${_chroot_groups}"
+		else
+			echo "root-users=root,${_chroot_groups}"
+		fi
+		if [ "${_chroot_groups}" = "root" ]; then
+			echo "root-groups=${_chroot_groups}"
+		else
+			echo "root-groups=root,${_chroot_groups}"
+		fi
+	echo "__"
+		_full_chroot_stage_one "${_charch}" "${_arg_dist}" "${_arg_dir:-/tmp/$_arg_dist}" "${_ch_mirror}" "${_ch_key}"
+		_full_chroot_stage_two "${_arg_dir:-/tmp/$_arg_dist}"
+	elif [ "${#_arg_apps}" != "0" ]; then
+		echo "## Reading directory options..."
+		_is_dir "${_arg_dir:?Error no \$_arg_dir}" "write"
+		echo "#	adding parced variable together for [${_arg_apps//,/ }]"
+		_app_to_ldd "${_arg_apps}"
+		echo "#	coping dependancies and apps to [${_arg_dir}]"
+		_ldd_to_chroot "${_arg_dir}" "${_app_path_list}"
+		echo "## Notice : configuration files for ${_arg_apps}"
+		echo "#	may still need to be copied"
+	fi
+}

@@ -1,0 +1,77 @@
+_read_options_full_chroot(){
+	echo "Enter nickname for chroot, example: [Debian_chroot]"
+	echo -n " |>> "
+	read _arg_dist_nick
+	if [ "${#_arg_dist_nick}" != "0" ]; then
+		_prompt_command="-N=${_arg_dist_nick}"
+	fi
+
+	echo "Enter name of distrobution, example: [debian]"
+	echo -n " |>> "
+	read _arg_dist
+	if [ "${#_arg_dist}" != "0" ]; then
+		if [ "${#_prompt_command}" != "0" ]; then
+			_prompt_command="-D=${_arg_dist} ${_prompt_command}"
+		elif [ "${#_prompt_command}" = "0" ]; then
+			_prompt_command="-D=${_arg_dist}"
+		fi
+	fi
+
+	echo "Enter distrobution flavor, example: [wheezy]"
+	echo -n " |>> "
+	read _arg_flave
+	if [ "${#_arg_flave}" != "0" ]; then
+		if [ "${#_prompt_command}" != "0" ]; then
+			_prompt_command="-F=${_arg_flave} ${_prompt_command}"
+		elif [ "${#_prompt_command}" = "0" ]; then
+			_prompt_command="-F=${_arg_flave}"
+		fi
+	fi
+
+	echo "Enter full directory path for chroot destination, example: [/media/sdbX/usb_fs]"
+	echo -n " |>> "
+	read _arg_dir
+	if [ "${#_arg_dir}" != "0" ]; then
+		if [ "${#_prompt_command}" != "0" ]; then
+			_prompt_command="-d=${_arg_dir} ${_prompt_command}"
+		elif [ "${#_prompt_command}" = "0" ]; then
+			_prompt_command="-d=${_arg_dir}"
+		fi
+	fi
+
+	echo "Enter archetecture type for chroot envieroment, example: [armhf]"
+	echo -n " |>> "
+	read _arg_arch
+	if [ "${#_arg_arch}" != "0" ]; then
+		if [ "${#_prompt_command}" != "0" ]; then
+			_prompt_command="-A=${_arg_arch} ${_prompt_command}"
+		elif [ "${#_prompt_command}" = "0" ]; then
+			_prompt_command="${_arg_arch}"
+		fi
+	fi
+
+	echo "Enter priority for chroot tasks, example: [3]"
+	echo -n " |>> "
+	read _arg_priority
+	if [ "${#_chroot_mnt_priority}" != "0" ]; then
+		if [ "${#_prompt_command}" != "0" ]; then
+			_prompt_command="-p=${_chroot_mnt_priority} ${_prompt_command}"
+		elif [ "${#_prompt_command}" = "0" ]; then
+			_prompt_command="-p=${_chroot_mnt_priority}"
+		fi
+	fi
+
+	echo "Enter user(s) allowed access to chroot system, example [pi] or [pi,user2]"
+	echo -n " |>>"
+	read _arg_user
+	if [ "${#_arg_users}" != "0" ]; then
+		if [ "${#_prompt_command}" != "0" ]; then
+			_prompt_command="-U=${_arg_users} ${_prompt_command}"
+		elif [ "${#_prompt_command}" = "0" ]; then
+			_prompt_command="-U=${_arg_users}"
+		fi
+	fi
+
+#	echo "## Reading of args/opts done, sending the following to ${_self}"
+#	echo "${_dir}/${_self} ${_prompt_command}"
+}

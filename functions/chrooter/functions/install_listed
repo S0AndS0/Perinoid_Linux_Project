@@ -1,0 +1,19 @@
+## Example call for Install_Depends_List
+#	Install_Depends_List dchroot debootstrap
+#	Install_Depends_List dchroot,debootstrap
+Install_Depends_List(){
+	_apps="${@:?Error [Install_Depends_List] : no applications where passed}"
+	for _app in ${_apps//,/ }; do
+		which ${_app}
+		if [ "$?" != "0" ]; then
+			echo "#	[${_app}] Not installed"
+			_dep_list="${_dep_list,${_app}:-${_app}}"
+		elif [ "$?" = "0" ]; then
+			echo "#	[${_app}] Is already installed"
+		fi
+	done
+	echo "apt-get update"
+	echo "apt-get install ${_dep_list//,/ }"
+#	apt-get update
+#	apt-get install ${_dep_list//,/ }
+}

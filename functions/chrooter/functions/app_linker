@@ -1,0 +1,47 @@
+_ldd_to_chroot(){
+	_ch_app_dir="$1"
+	_app_ldd_list="$2"
+	for _app_dep in ${_app_ldd_list//#/ }; do
+		_app_name=$(awk '{print $1}' <<<${_app_dep//_/ })
+		_app_dep_list=$(awk '{print $2}' <<<${_app_dep//_/ })
+		for _dep_path in ${_app_dep_list//,/ }; do
+			echo "#	cp -p ${_dep_path} ${_ch_app_dir}"
+		done
+		echo "#	cp -p $(which ${_app_name}) ${_ch_app_dir}"
+	done
+}
+_app_to_ldd(){
+	_app_args="$@"
+	_path_count=""
+	for _app in ${_app_args//,/ }; do
+		echo "${_app}"
+		_app_path=$(which $_app)
+		echo "#	${_app_path}"
+		! [[ "${_app_path}" ]] || echo "# apt-get -yq install ${_app}"
+		_path_list=$(ldd $(which $_app) | awk '{print $1" "$3}')
+		for _paths in $_path_list; do
+		echo "$(which $_app)"
+		echo "$_app_path"
+		read
+			case $_paths in
+				/*)
+					_path_count=$((${_path_count}+1))
+					_dep_location="$(ls -hal ${_paths} | awk '{print $9}')"
+					_dep_dir="${_dep_location%/*}"
+					if [ "${#_dep_path_list}" = "0" ]; then
+						_dep_path_list="${_dep_location}"
+					elif [ "${#_dep_path_list}" != "0" ]; then
+						_dep_path_list="${_dep_path_list},${_dep_location}"
+					fi
+				;;
+			esac
+		done
+		if [ "${#_app_ldd_list}" = "0" ]; then
+			_app_ldd_list="#${_app}_${_dep_path_list}"
+		elif [ "${#_app_ldd_list}" != "0" ]; then
+			_app_ldd_list="#${_app}_${_dep_path_list}${_app_ldd_list}"	
+		fi
+		echo "## App #[${_path_count}] : ${_app_path}"
+		echo "#	Depends on : ${_dep_path_list}"
+	done
+}

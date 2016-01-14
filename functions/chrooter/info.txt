@@ -1,0 +1,3 @@
+source of full chroot guide : https://www.digitalocean.com/community/tutorials/how-to-configure-chroot-environments-for-testing-on-an-ubuntu-12-04-vps
+source of armhf chroot guide : https://blog.night-shade.org.uk/2013/12/building-a-pure-debian-armhf-rootfs/
+source of copying users and sudoers yo chroot : http://jblevins.org/log/ubuntu-chroot

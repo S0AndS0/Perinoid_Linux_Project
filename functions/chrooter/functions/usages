@@ -1,0 +1,244 @@
+Version(){
+	echo "## Version : 0.0.1a_${_self}"
+}
+Help_Usage_Args(){
+	echo "## ${_self} Help"
+	if [ "${#@}" -gt "0" ]; then
+		echo "## ${_self} was passed the following args ..."
+		echo "#	<[ $@ ]>"
+		echo "#	Some of which may not have been understood."
+		echo "## Press [Ctrl^c] to quit now"
+		echo "#	or press enter to quit now"
+		echo "#	..."
+		read
+		exit $?
+	fi
+	cat << EOF
+##	##	##
+## Syntax : ${_self} -[option] <agument>
+#  Options are preficed by a dash [-] or two dashes [--]
+#  Arguments are full words, file paths, or numbers
+#  Space and equal sign ([ ] & [=]) are NOT interchangible for processing
+#  arguments not passed are set to system or safe defaults, for example supplying
+#  the directory for chroot option with a directory path and nothing else
+#	${_self} --dir ${HOME}/chroot
+#  will result in ${_self} automaticly assigning the new chroot to have the
+#  same distrobution and architecture as the host system with ${USER} being the
+#  only user/group allowed to run services within.
+  -h | --help			Prints this message and exits
+  -v | --version		Prints ${_self} version and exits
+ Opts:  [-A=] [--arch=]
+ Args:  <armel> <armhf> <amd64> <powerpc>
+   Sets architecture for chroot enviroment, not required, used for
+  installing foren arcitecture to chroot
+ Example: ${_self} -A=armhf
+ Opts:  [-a=] [--app=]
+ Args:  <bash> <apache2>
+   Sets application to copy, with dependancies for very
+   limited chroot enviroment. Requires [-d=] option.
+ Example: ${_self} -a=apache2
+ Opts:  [-C=] [--conf=]
+ Args:  </etc/schroot/schroot.conf>
+   Sets configuration file to write to, not required, used for
+   writting to non-default configuration file location
+ Example: ${_self} -C=/tmp/test_schroot.conf
+ Opts:  [-D=] [--distro=]
+ Args:  <rpi> <debian> <ubuntu> <kali>
+   Sets distrobution to install to chroot dir, not required, used
+   for installing distrobutions other than host distro
+ Example: ${_self} -D=raspbian
+ Opts:  [-d=] [--dir=]
+ Args:  </tmp/chroot>
+   Sets chroot directory to mount file system to, best to set
+   this option to a directory on a hard drive other than host OS
+ Example: ${_self} -d=/media/usb1/chroot_dir
+ Opts:  [-p=] [--priority=]
+ Args:  <3>
+   Priority level for chroot, not required.
+   Writes settings to default configuratin file or the file
+   passed with [-C=] option
+ Example: ${_self} -p=3
+ Opts:  [-U=] [--user=]
+   User(s) to make/allow for chroot file system, not required,
+   by default only ${USER} user and group are made within chroot
+   multiple users can be applied using commas [,] as sepperator
+ Example: ${_self} -U=${USER},pi
+ Opts:  [-N=] [--nick-name=]
+ Args:  <Ubuntu> <Debian> <Rasbian>
+   Sets nick name for chroot, not required, wrights to
+   configuarion file /etc/schroot/schroot.conf by default
+   unless modified via [-C=] option, default value will be
+   [-D=] if this is not set
+ Example: ${_self} -N=Ubuntu_Chroot
+ Opts:  [-s3] [--stage-three=]
+ Args:  </path/to/third_stage.sh> <${_dir}/configs/third_stage>
+   Script to run within chroot after install, not requred
+   Default will assigne new password (promted) and update apt
+   within chroot and install a few common packages
+ Example: ${_self} -s=${HOME}/after_chroot_setup_script.sh
+ Opts:  [-e] [--exicute=]
+ Args:  </path/to/script>
+   Sets chroot fourth install operation to run within chroot
+   installation process or when combined with [-m=] run script
+   or command within chrooted enviroment
+ Example: ${_self} -e=${HOME}/commands_for_chroot.sh
+ Opts:  [-m=] [--mount=]
+ Args:  </tmp/exsisting_chroot>
+   Mount an exsisting chroot and signin, not compatible with
+   other options except for [-e=] for passing commands
+ Example: ${_self} -m=/media/usb1/chroot_dir
+ Opts:  [-u] [--unmount=]
+ Args:  </tmp/exsisting_chroot>
+   Un-mount an exsisting chroot and mounted directories,
+   not compatible with any other arguments
+ Example: ${_self} -u=/media/usb1/chroot_dir
+##	##	##
+EOF
+}
+Usage_Parser(){
+## Source of function example
+#	http://stackoverflow.com/a/24121652/2632107
+	_prefix=""
+	_key=""
+	_value=""
+	for _KEY in $@; do
+		case "${_prefix}${_KEY}" in
+			-h*|--help*) 		_key='-h' ; 	_value="${_KEY#*=}" ;;
+			-v*|--version*)		_key='-v' ;	_value="${_KEY#*=}" ;;
+			-A=*|--arch=*)		_key='-A' ;	_value="${_KEY#*=}" ;;
+			-a=*|--arch=*)		_key='_a' ;	_value="${_KEY#*=}" ;;
+			-C=*|--config=*)	_key='-C' ;	_value="${_KEY#*=}" ;;
+			-D=*|--distro=*)	_key='-D' ;	_value="${_KEY#*=}" ;;
+			-d=*|--dir=*)		_key='_d' ;	_value="${_KEY#*=}" ;;
+			-e=*|--exicute=*)	_key='_e' ;	_value="${_KEY#*=}" ;;
+			-F=*|--flavor=*)	_key='-F' ;	_value="${_KEY#*=}" ;;
+			-m=*|--mount=*)		_key='-m' ;	_value="${_KEY#*=}" ;;
+			-N=*|--nick-name=*)	_key='-N' ;	_value="${_KEY#*=}" ;;
+			-s3=*|--stage-three=*)	_key='_s' ;	_value="${_KEY#*=}" ;;
+			-U=*|--user=*)		_key='-U' ;	_value="${_KEY#*=}" ;;
+			-u=*|--unmount=*)	_key='_u' ;	_value="${_KEY#*=}" ;;
+			-p=*|--priority=*)	_key='-p' ;	_value="${_KEY#*=}" ;;
+			-P*|--prompt*)		_key='_P' ;	_value="${_KEY#*=}" ;;
+			*) 			_key='_0' ; 	_value="${_KEY#*=}" ;;
+		esac
+		case $_key in
+			_P)
+				_prefix=""
+				_key=""
+				_read_options_full_chroot
+				echo "## Command to be run"
+				echo "# ${_dir}/${_self} ${_prompt_command}"
+				read
+			;;
+			_0)
+				_arg_usage="${_value}"
+				_prefix="${_KEY}"
+				_key=""
+				Help_Usage_Args "${_prefix}${_arg_usage}"
+				exit 2
+			;;
+			-v)
+				_prefix=""
+				_key=""
+				Version
+				exit $?
+			;;
+			-h)
+				_prefix=""
+				_key=""
+				_arg_help="${_value}"
+				Help_Usage_Args
+				exit $?
+			;;
+			-m)
+				_prefix=""
+				_key=""
+				_arg_mount="${_value}"
+				_mount_full_chroot "${_arg_mount}"
+				exit $?
+			;;
+			_u)
+				_prefix=""
+				_key=""
+				_arg_un_mount="${_value}"
+				_un_mount_full_chroot "${_arg_un_mount}"
+				echo "## Unmounted : [${_arg_un_mount}]"
+				exit $?
+			;;
+			-A)
+				_prefix=""
+				_key=""
+				_arg_arch="${_value}"
+				echo "## Setting chroot archetecture [${_arg_arch}]"
+			;;
+			_a)
+				_prefix=""
+				_key=""
+				_arg_apps="${_value}"
+				echo "## Setting chroot application [${_arg_apps}]"
+			;;
+			-C)
+				_prefix=""
+				_key=""
+				_arg_config="${_value}"
+				echo "## Setting schroot config path [${_arg_config}]"
+			;;
+			-D)
+				_prefix=""
+				_key=""
+				_arg_dist="${_value}"
+				echo "## Setting chroot enviroment [${_arg_dist}]"
+			;;
+			_d)
+				_prefix=""
+				_key=""
+				_arg_dir="${_value}" 
+				echo "## Setting chroot directory [${_arg_dir}]"
+			;;
+			_e)
+				_prefix=""
+				_key=""
+				_arg_exicute="${_value}"
+				echo "## Script to run within chroot [${_arg_exicute}]"
+			;;
+			-F)
+				_prefix=""
+				_key=""
+				_arg_flave="${_value}"
+				echo "## Setting flavor for chroot [${_arg_flave}]"
+			;;
+			-N)
+				_prefix=""
+				_key=""
+				_arg_dist_nick="${_value}"
+				echo "## Setting nick-name for chroot [${_arg_dist_nick}]"
+			;;
+			-p)
+				_prefix=""
+				_key=""
+				_arg_priority="${_value}"
+				echo "## Setting priority for chroot to [${_arg_priority}]"
+			;;
+			-U)
+				_prefix=""
+				_key=""
+				_arg_user="${_value}"
+				echo "## Setting user/group for chroot [${_arg_user}]"
+			;;
+			_s)
+				_prefix=""
+				_key=""
+				_arg_stage_three="${_value}"
+				echo "## Setting stage three script to [${_arg_stage_three}]"
+			;;
+			*)
+				_arg_usage=""
+				_prefix=""
+				_key=""
+				Help_Usage_Args "${_prefix}${_arg_usage}"
+				exit 2
+			;;
+		esac
+	done
+	Run_Parsed_Options
+}

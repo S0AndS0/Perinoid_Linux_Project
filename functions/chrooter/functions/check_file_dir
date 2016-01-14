@@ -1,0 +1,92 @@
+_check_file_lines(){
+	_file="$1"
+	_match_line="$2"
+	_match_replace="$3"
+	_append="$4"
+	_match_find=$(grep -Eo "${_match_search}" ${_file})
+	if [ "${_match_find}" = "${_match_line}" ]; then
+		for _line in ${_file}; do
+			_line_count=$((${_line_count}+1))
+			if [ "${_match_line}" = "${_line}" ]; then
+				echo "# [${_line_count}] [${_match_search}] --> [${_match_replace}]"
+				sed -i "${_line_count}s/${_match_line////\/}/${_match_replace////\/}/" ${_file}
+			fi
+		done
+	elif [ "${_match_find}" != "${_match_line}" ]; then
+		if [ "${_append}" = "append" ]; then
+			echo "${_match_replace}" | tee -a ${_file}
+		elif [ "${_append}" != "append" ]; then
+			echo "Line Not found [${_match_line}]"
+			echo "Append option not set to [append]"
+			echo "Not adding line [${_match_replace}]"
+			echo "To file [${_file}]"
+		fi
+	fi
+}
+_is_dir(){
+	_check_dir="${1:?Error [_is_dir] : no \$_check_dir var passed}"
+	_c_w="${2:-check}"
+	if [ ! -d "${_check_dir}" ]; then
+		echo "## Notice [_is_dir] : ${_check_dir} does NOT exsist"
+		if [ "${_c_w}" = "write" ]; then
+			echo "#	Writing new path [${_check_dir}]"
+			mkdir -p ${_check_dir}
+		elif [ "${_c_w}" = "over-write" ]; then
+			mkdir -p ${_check_dir}
+		elif [ "${_c_w}" = "check" ]; then
+			echo "#	Notice [_is_dir] : set to [${_c_w}]"
+		else
+			echo "## Error [_is_dir] : no \$_c_w var passed"
+			exit 1
+		fi
+		_dcheck="0"
+	elif [ -d "${_check_dir}" ]; then
+		echo "## Notice [_is_dir] : ${_check_dir} already exsists"
+		if [ "${_c_w}" = "over-write" ]; then
+			mkdir -p ${_back_dir}${_check_dir}
+			mv ${_check_dir} ${_back_dir}${_check_dir}
+			echo "#	Writing new path [${_check_dir}]"
+			mkdir -p ${_check_dir}
+		elif [ "${_c_w}" = "write" ]; then
+			mkdir -p ${_check_dir}
+		elif [ "${_c_w}" = "check" ]; then
+			echo "#	Notice [_is_dir] : set to ${_c_w}"
+		else
+			echo "## Error [_is_dir] : no \$_c_w var passed"
+			exit 1
+		fi
+		_dcheck="1"
+	fi
+	echo "# \$_dcheck : [${_dcheck}]"
+}
+_is_file(){
+	_file="${1:?Error [_is_file] : no \$_file var passed}"
+	_c_w="${2:-check}"
+	if [ ! -f "${_file}" ]; then
+		echo "## Notice [_is_file] : ${_file} does NOT exsist"
+		if [ "${_c_w}" = "write" ]; then
+			echo "#	Writing new blank [${_file}]"
+			touch ${_file}
+		elif [ "${_c_w}" = "check" ]; then
+			echo "#	Notice [_is_file] : set to [${_c_w}]"
+		else
+			echo "## Error [_is_file] : no \$_c_w var passed"
+			exit 1
+		fi
+		_fcheck="0"
+	elif [ -f "${_file}" ]; then
+		echo "## Notice [_is_file] : ${_file} already exsists"
+		if [ "${_c_w}" = "write" ]; then
+			mkdir -p ${_back_dir}
+			mv ${_file} ${_back_dir}${_file}
+			echo "#	Writing new blank [${_file}]"
+			touch ${_file}
+		elif [ "${_c_w}" = "check" ]; then
+			echo "#	Notice [_is_file] : set to ${_c_w}"
+		else
+			echo "## Error [_is_file] : no \$_c_w var passed"
+			exit 1
+		fi
+		_fcheck="1"
+	fi
+}

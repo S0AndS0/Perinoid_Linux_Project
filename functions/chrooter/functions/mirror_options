@@ -1,0 +1,27 @@
+Mirror_Args_Parser(){
+	_mirror_args="$@"
+	for _mirror_arg in ${_mirror_args}; do
+		case ${_mirror_arg} in
+		debian*|wheezy*)
+			_dist_mirror='http://debian.net/debian'
+		;;
+		ubuntu*)
+			_dist_mirror='http://archive.ubuntu.com/ubuntu'
+		;;
+		rpi|raspbian*)
+#			_dist_mirror='http://mirrordirector.raspbian.org/raspbian'
+			_dist_mirror='http://archive.raspbian.org/raspbian'
+			_dist_key='http://archive.raspbian.org/raspbian.public.key'
+		;;
+		kali*)
+			_dist_mirror='http://repo.kali.org/kali'
+		;;
+		*)
+			echo "## Error reading \$mirror_arg variable in [Mirror_Args_Parser] function"
+			Help_Usage_Args "-D=${_mirror_arg}"
+		;;
+		esac
+	done
+	echo "## Notice dist mirror : ${_dist_mirror}"
+	echo "## Notice dist key : ${_dist_key}"
+}
