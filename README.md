@@ -12,16 +12,20 @@ No licences just yet, and no warienties or geronties of any kind.
 
 # S0AndS0's To-Do list
 
+- compleat nginx installation and configuration for hidden service, exit and public bridge node options
+
 - incorperate firewall directory's scipts into `functions/iptables` directory and add parser
 
 - add fail2ban filters and actions for hidden services and exit nodes
 
-- add Whonix installer
+- add Whonix installer to main script
 
-- add `KVM` installer
+- add `KVM` installer to main script
 
-- add `VMWare` installer
+- add `VMWare` installer to main script
 
 - add apparmor and selinux configurations/modifications
 
-- ask for sujestions
+- add ModSecurity installation and configurations for exsisting nginx source install options
+
+- add sujestions from requests
