@@ -1,0 +1,3 @@
+## Manual of ModSecuirty on GitHub, long but therow
+#	https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#Installation_for_NGINX
+
