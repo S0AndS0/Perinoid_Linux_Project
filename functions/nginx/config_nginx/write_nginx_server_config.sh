@@ -14,67 +14,69 @@ Write_nginx_server_config(){
 	echo '	## worker process will accept mutex after this delay in not assigned' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
 	echo '	#accept_mutex_delay 500ms;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
 	echo '}' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+## Note the buffer overflow and other abuse mitigation configurations
+#	should be repeated for each domain running from this server
 	echo 'http {' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
-#		## Buffer Overflows Mitigation
-#		client_body_buffer_size 1K;
-#		client_header_buffer_size 1K;
-#		client_max_body_size 1K;
-#		large_client_header_buffers 2 1K;
-#		## Start Timeouts
-#		client_body_timeout 10;
-#		client_header_timeout 10;
-#		keepalive_timeout 55s;
-#		send_timeout 10;
-#		spdy_keepalive_timeout 100s;
-#		spdy_recv_timeout 4s;
-#		## General Options
-#		charset utf-8;
-#		default_type application/octet-stream;
-#		gzip off;
-#		gzip_static on;
-#		gzip_proxied any;
-#		ignore_invalid_headers on;
-#		include /etc/mime.tyes;
-#		keepalive_requests 5;
-#		keepalive_disable none;
-#		max_ranges 1;
-#		msie_padding off;
-#		open_file_cache max=1000 inactive=1h;
-#		open_file_cache_errors on;
-#		open_file_cache_min_uses 1;
-#		open_file_cache_valid 1h;
-#		outpu_buffers 1 512;
-#		read_ahead 512K;
-#		recursive_error_pages on;
-#		reset_timedout_connections on;
-#		sendfile on;
-#		## Turn off server signature
-#		server_tokens off;
-#		server_name_in_redirect off;
-#		source_charset utf-8;
-#		tcp_nodelay on;
-#		tcp_nopush off;
-#		## Request Limits
-#		limit_req_zone $binary_remote_addr zone=gulag:1m rate=60r/m;
-#		## Log format
-#		log_format main '$remote_addr $host $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" $ssl_cipher $request_time';
-#		## Global SSL options with "Perfect Forward Security"
-#		## RSA ciphers
-#		ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:ECDHE-RSA-RC4-SHA;
-#		## ECDSA ssl ciphers
-#		#ssl_ciphers ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA;
-#		ssl_ecdh_curve secp384r1;
-#		ssl_prefer_server_ciphers on;
-#		ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
-#		#ssl_session_timeout 5m;
-#		#SPDY timeout=180sec, keepalive=20sec; connection close=session expires
-## Simultaneous Connection Limiters
-#	limit_zone slimits $binary_remote_addr 5m;
-#	limit_conn slimits 5;
-## Robot Block Restrictions
-#	if ($http_user_agent ~* msnbot|scrapbot) {
-#		return 403;
-#	}
+	echo '	## Buffer Overflows Mitigation' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	client_body_buffer_size 1K;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	client_header_buffer_size 1K;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	client_max_body_size 1K;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	large_client_header_buffers 2 1K;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## Start Timeouts' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	client_body_timeout 10;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	client_header_timeout 10;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	keepalive_timeout 55s;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	send_timeout 10;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	spdy_keepalive_timeout 100s;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	spdy_recv_timeout 4s;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## General Options' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	charset utf-8;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	default_type application/octet-stream;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	gzip off;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	gzip_static on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	gzip_proxied any;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	ignore_invalid_headers on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	include /etc/mime.tyes;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	keepalive_requests 5;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	keepalive_disable none;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	max_ranges 1;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	msie_padding off;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	open_file_cache max=1000 inactive=1h;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	open_file_cache_errors on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	open_file_cache_min_uses 1;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	open_file_cache_valid 1h;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	outpu_buffers 1 512;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	read_ahead 512K;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	recursive_error_pages on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	reset_timedout_connections on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	sendfile on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## Turn off server signature' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	server_tokens off;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	server_name_in_redirect off;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	source_charset utf-8;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	tcp_nodelay on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	tcp_nopush off;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## Request Limits' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	limit_req_zone $binary_remote_addr zone=gulag:1m rate=60r/m;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## Log format' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	log_format main '$remote_addr $host $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" $ssl_cipher $request_time';' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## Global SSL options with "Perfect Forward Security"' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## RSA ciphers' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:ECDHE-RSA-RC4-SHA;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## ECDSA ssl ciphers' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	#ssl_ciphers ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	ssl_ecdh_curve secp384r1;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	ssl_prefer_server_ciphers on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	ssl_protocols TLSv1.2 TLSv1.1 TLSv1;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	#ssl_session_timeout 5m;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	#SPDY timeout=180sec, keepalive=20sec; connection close=session expires' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## Simultaneous Connection Limiters' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	#	limit_zone slimits $binary_remote_addr 5m;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	#	limit_conn slimits 5;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '	## Robot Block Restrictions' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '		if ($http_user_agent ~* msnbot|scrapbot) {' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '			return 403;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
+	echo '		}' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
 	echo '	## Basic Settings' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
 	echo '	sendfile on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
 	echo '	tcp_nopush on;' | sudo tee -a ${_nginx_dir}/nginx/nginx.conf
@@ -311,3 +313,22 @@ Write_nginx_server_config(){
 #	if ($http_user_agent ~* msnbot|scrapbot) {
 #		return 403;
 #	}
+## Enable Mod_security if compiled from source, modsecurity version > 2.7.2
+#location / {
+#	ModSecurityEnabled on;
+#	ModSecurityConfig modsecurity.conf;
+#	proxy_pass http://localhost:8011;
+#	proxy_read_timeout 180s;
+#}
+## Enable Mod_security if compiled from source, modsecurity version < 2.7.2
+#location / {
+#	ModSecurityEnabled on;
+#	ModSecurityConfig modsecurity.conf;
+#	ModSecurityPass @backend;
+#}
+#location @backend {
+#	proxy_pass http://localhost:8011;
+#	proxy_read_timeout 180s;
+#}
+
+
