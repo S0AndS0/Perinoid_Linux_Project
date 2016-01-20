@@ -7,13 +7,22 @@ Torrc_client_configs(){
 		echo "## Checking if ${_torrc_dir}/torrc-${_tor_count} file does Not exsist"
 		Overwte_config_checker "${_tor_directory}/tor/torrc-${_tor_count}"
 		if ! [ -f ${_torrc_dir}/torcc-${_tor_count} ]; then
-			echo 'SocksBindAddress 127.0.0.1' | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
+			echo "SocksBindAddress ${_tor_socks_bind_address:-127.0.0.1}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
 			echo "SocksPort 100${_tor_count}0" | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
-			echo 'SocksListenAddress 127.0.0.1' | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
-			echo 'SocksPolicy accept 127.0.0.1' | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
+			echo "SocksListenAddress ${_tor_socks_listen_address:-127.0.0.1}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
+			if [ "${_tor_socks_bind_address}" = "${_tor_socks_listen_address}"]; then
+				echo "SocksPolicy accept ${_tor_socks_bind_address}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
+			else
+				if [ "${#_tor_socks_bind_address}" != "0" ]; then
+					echo "SocksPolicy accept ${_tor_socks_bind_address}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
+				fi
+				if [ "${#_tor_socks_listen_address}" != "0" ]; then
+					echo "SocksPolicy accept ${_tor_socks_listen_address}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
+				fi
+			fi
 			echo 'SocksPolicy reject *' | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
 			echo 'AllowUnverifiedNodes middle,rendezvous' | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
-			echo 'DNSPort 5300' | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
+			echo "DNSPort ${_tor_dns_port:-5300}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
 			echo 'AutomapHostsOnResolve 1' | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
 			echo 'AutomapHostsSuffixes .exit,.onion' | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
 			echo 'SafeSocks 1' | sudo tee -a ${_torrc_dir}/torrc-${_tor_count}
