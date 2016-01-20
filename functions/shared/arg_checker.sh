@@ -20,7 +20,7 @@ Arg_checker(){
 				-B9D=*|--bind9-dir=*)			_key="-B9D" ;		_value="${_KEY#*=}" ;;
 				-B9U=*|--bind9-user=*)			_key="-B9U" ;		_value="${_KEY#*=}" ;;
 				-B9ipv4=*|--bind9-ipv4=*)		_key="-B9ipv4" ;	_value="${_KEY#*=}" ;;
-				-B9P=*|--bind9-portr=*)			_key="-B9P" ;		_value="${_KEY#*=}" ;;
+				-B9P=*|--bind9-port=*)			_key="-B9P" ;		_value="${_KEY#*=}" ;;
 				-C=*|--connections=*)			_key="-C" ;		_value="${_KEY#*=}" ;;
 				-E=*|--exit-nickname=*)			_key="-E" ;		_value="${_KEY#*=}" ;;
 				-EA=*|--email-address=*)		_key="-EA" ;		_value="${_KEY#*=}" ;;
@@ -68,8 +68,12 @@ Arg_checker(){
 				-TRT=*|--tor-relay-types=*)		_key="-TRT" ;		_value="${_KEY#*=}" ;;
 				-TST=*|--tor-service-types=*)		_key="-TST" ;		_value="${_KEY#*=}" ;;
 				-TD=*|--tor-directory=*)		_key="-TD" ;		_value="${_KEY#*=}" ;;
+				-TDP=*|--tor-dir-port=*)		_key="-TDP" ;		_value="${_KEY#*=}" ;;
 				-TSP=*|--tor-ssh-port=*)		_key="-TSP" ;		_value="${_KEY#*=}" ;;
+				-TDNSP=*|--tor-dns-port=*)		_key="-TDNSP" ;		_value="${_KEY#*=}" ;;
 				-TSC=*|--tor-service-client=*)		_key="-TSC" ;		_value="${_KEY#*=}" ;;
+				-TSBA=*|--tor-socks-bind-address=*)		_key="-TSBA" ;		_value="${_KEY#*=}" ;;
+				-TSLA=*|--tor-socks-listen-address=*)	_key="-TSLA" ;		_value="${_KEY#*=}" ;;
 				-TWP=*|--tor-web-port=*)		_key="-TWP" ;		_value="${_KEY#*=}" ;;
 				-TOP=*|--tor-or-port=*)			_key="-TOP" ;		_value="${_KEY#*=}" ;;
 				-t=*|--temp-directory=*)		_key="-t" ;		_value="${_KEY#*=}" ;;
@@ -322,6 +326,14 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_tor_directory="${_value}"
 				;;
+				-TDP)
+					_prefix="" ; _key=""
+					_tor_dir_port="${_value}"
+				;;
+				-TDNSP)
+					_prefix="" ; _key=""
+					_tor_dns_port="${_value}"
+				;;
 				-TSC)
 					_prefix="" ; _key=""
 					_tor_service_clients="${_value}"
@@ -329,6 +341,14 @@ Arg_checker(){
 				-TSP)
 					_prefix="" ; _key=""
 					_tor_ssh_port="${_value}"
+				;;
+				-TSBA)
+					_prefix="" ; _key=""
+					_tor_socks_bind_address="${_value}"
+				;;
+				-TSLA)
+					_prefix="" ; _key=""
+					_tor_socks_listen_address="${_value}"
 				;;
 				-TWP)
 					_prefix="" ; _key=""
