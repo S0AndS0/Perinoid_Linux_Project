@@ -3,13 +3,19 @@ Torrc_exit_configs(){
 #	_exit_types=""
 	_tor_dir="${_tor_directory:-/etc}/tor"
 	Overwrite_config_checker "${_tor_directory}/tor/torrc-${_tor_exit_nickname}"
-#	echo 'ORPort 9001' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 	echo 'ClientOnly 0' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
-	echo "ORPort ${_tor_or_port:-9001}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
-	echo 'DirPort 9030' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
-	echo "#DirPort ${_external_ip4v}:%PORT" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
-#	echo 'Address %IP' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
-#	echo 'OutboundBindAddress %IP' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+	if [ "${#_external_ip4v}" != "0" ]; then
+		echo "DirPort ${_external_ip4v}:${_tor_dir_port:-9030}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+	else
+		echo "DirPort ${_tor_dir_port:-9030}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+	fi
+	if [ "${#_nat_Ipv4}" != "0" ]; then
+		echo "Address ${_nat_Ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+		echo "OutboundBindAddress ${_nat_Ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+		echo "ORPort ${_nat_Ipv4}:${_tor_or_port:-9001}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+	else
+		echo "ORPort ${_tor_or_port:-9001}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+	fi
 	echo "DataDirectory /var/lib/tor/tor${_tor_exit_nickname}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 	echo "PidFile /var/run/tor/tor${_tor_exit_nickname}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 	echo "Log notic file /var/log/tor/notices${_tor_exit_nickname}.log" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
@@ -82,9 +88,11 @@ Torrc_exit_configs(){
 	yes|Yes)
 		echo '## IPv6 exit policies' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 		echo 'IPv6Exit 1' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
-		if [ "${#_nat_Ipv6" != "0" ]; then
-			echo "ORPort [${_nat_ipv6}]:9001" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+		if [ "${#_nat_Ipv6}" != "0" ]; then
+			echo "ORPort [${_nat_ipv6}]:${_tor_or_port:-9001}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 			echo "OutboundBindAddress [${_nat_ipv6}]" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+		else
+			echo "ORPort ${_tor_or_port:-9001}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 		fi
 		echo 'ExitPolicy accept6 *:22		# SSH' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 		echo 'ExitPolicy accept6 *:43		# WHOIS' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
