@@ -1,18 +1,3 @@
-#	Quick Start: help
-## Clone source script pack
-# git clone https://...
-## Change directories to new directory made by git
-# cd Perinoid_Linux
-## Provide exicutable permissions to script
-# chmod +x Sancastle.sh
-## Print help documentation for script
-# bash Perinoid --help
-## Print help documentation for spiciffic function(s)
-# bash Sandcastle.sh --help='Source_tor_functions'
-# bash Sandcastle.sh --help='Check_host_enviroment,Arg_checker,default_variables'
-## Install Tor as client with privoxy squid and bind9 local DNS server
-# bash Perinoid --var-file='client_tor_install_vars.sh'
-
 ## Welcome to the Perinoid Linux project; the aims of which are simple, to build sandcastles against
 #	tides that atempt to wash away privacy. Thanks should be given to those that aided in this
 #	script pack's development, links to those documents that where interagle in educating the

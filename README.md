@@ -12,6 +12,8 @@ No licences just yet, and no warienties or geronties of any kind.
 
 # S0AndS0's To-Do list
 
+- add options beyond [-C=...] for setting socks port in Tor client torrc file and Privoxy
+
 - compleat nginx installation and configuration for hidden service, exit and public bridge node options
 
 - incorperate firewall directory's scipts into `functions/iptables` directory and add parser
@@ -29,3 +31,23 @@ No licences just yet, and no warienties or geronties of any kind.
 - add ModSecurity installation and configurations for exsisting nginx source install options
 
 - add sujestions from requests
+
+# Quick start guide for `Sandcastle.sh`
+Make a download directory if not already there and clone source
+    mkdir -p ~/Downloads/GitSources
+    cd ~/Downloads/GitSources
+    git clone https://github.com/S0AndS0/Perinoid_Linux_Project
+    chmod +x Perinoid_Linux_Project/Sancastle.sh
+    cd ~
+Print help documentation
+    # General help
+    bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh -h
+    # Spiciffic help for "Check_host_enviroment" function
+    bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --help=Check_host_enviroment
+    # Spiciffic help for "" & "" functions
+    bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --help=Check_host_enviroment,Arg_checker
+
+
+## Install Tor as client with privoxy squid and bind9 local DNS server
+# bash Perinoid --var-file='client_tor_install_vars.sh'
+
