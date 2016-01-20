@@ -50,6 +50,7 @@ _squid_user=""
 _temp_dir=""
 _tor_user=""
 _tor_directory=""
+_tor_dir_port=""
 _tor_node_types=""
 _tor_bridge_nickname=""
 _tor_exit_nickname=""
@@ -57,6 +58,7 @@ _tor_relay_nickname=""
 _tor_relay_bandwidth_rate=""
 _tor_relay_bandwidth_burst=""
 #_tor_service_nickname=""
+_tor_socks_bind_address=""
 _tor_web_dir=""
 _tor_service_clients=""
 _tor_or_port=""
@@ -70,11 +72,11 @@ _service_types=""
 ### Blank_torinstall_vars_help blank_torinstall_vars_help blank_torinstall_vars.sh
 #	File: ${_script_dir}/functions/tor/sample_vars/blank_torinstall_vars.sh
 #	Variables Explained
-## _application_list			# Set by [-A=...] argument to [${_script_name]
+## _application_list			# Set by [-A=...] argument to [${_script_name}]
 #		Default:	tor,tor-arm,tor-geoipdb,deb.torproject.org-keyring
 #		Uses:		overwrites packages to install, use above deafaults in addition
 #				to avoid errors from missing packages.
-## _apt_target_release			# Set by [-AT=...] argument to [${_script_name]
+## _apt_target_release			# Set by [-AT=...] argument to [${_script_name}]
 #		Default:	No default
 #		Uses:		Set internally during script run time to dictate where packages
 #				should be installed updated as well as what value is writen in
@@ -88,35 +90,35 @@ _service_types=""
 #				variable internally but only on ocasions that these functions do not
 #				make use of the [Arg_checker] function to set any variables.
 ## _auto_yn				# Set by [-AY=...]
-## _bridge_ipv4_to_add			# Set by [-ABipv4=...] argument to [${_script_name]
+## _bridge_ipv4_to_add			# Set by [-ABipv4=...] argument to [${_script_name}]
 #		Default:	no input no bridge
 #		Uses:		Writes properly formatted line into torrc client files restricting
 #				tor client connections to utilize bridge's IPv4 address
-## _bridge_ipv6_to_add			# Set by [-ABipv6=...] argument to [${_script_name]
+## _bridge_ipv6_to_add			# Set by [-ABipv6=...] argument to [${_script_name}]
 #		Default:	no input no bridge
 #		Uses:		Writes properly formatted line into torrc client files restricting
 #				tor client connections to utilize bridge's IPv6 address
-## _bridge_finger_print_to_add		# Set by [-ABf=...] argument to [${_script_name]
+## _bridge_finger_print_to_add		# Set by [-ABf=...] argument to [${_script_name}]
 #		Default:	no input no bridge
 #		Uses:		Writes properly formatted line into torrc client files restricting
 #				tor client connections to utilize bridge's IPv4 or IPv6 address that
 #				also inclued finger print. Usually for obsf3 type bridges
-## _bridge_type_to_add			# Set by [-ABt=...] argument to [${_script_name]
+## _bridge_type_to_add			# Set by [-ABt=...] argument to [${_script_name}]
 #		Default:	no input no bridge
 #		Uses:		Writes properly formatted line into torrc client files restricting
 #				tor client connections to utilize bridge types such as obsf3
-## _bridge_port_to_add			# Set by [-ABp=...] argument to [${_script_name]
+## _bridge_port_to_add			# Set by [-ABp=...] argument to [${_script_name}]
 #		Default:	no input no bridge
 #		Uses:		Writes properly formatted line into torrc client files restricting
 #				tor client connections to utilize bridge port
-## _btc_address				# Set by [-BA=...] argument to [${_script_name]
+## _btc_address				# Set by [-BA=...] argument to [${_script_name}]
 #		Default:	no input no BTC address added to contact info
 #		Uses:		Sets btc address in torrc contact info fields for non-client
 #				installations
-## _bind9_dir				# Set by [-B9D=...] argument to [${_script_name]
+## _bind9_dir				# Set by [-B9D=...] argument to [${_script_name}]
 #		Default:	/etc
 #		Uses:		
-## _bind9_user				# Set by [-B9U=...] argument to [${_script_name]
+## _bind9_user				# Set by [-B9U=...] argument to [${_script_name}]
 #		Default:	
 #		Uses:		
 ## _bind9_ipv4				# Set by [-B9ipv4=...] argument to [${_script_name}]
@@ -125,26 +127,26 @@ _service_types=""
 ## _bind9_port				# Set by [-B9P=...] argument to [${_script_name}]
 #		Default:	53
 #		Uses:		
-## _connection_count			# Set by [-C=...] argument to [${_script_name]
+## _connection_count			# Set by [-C=...] argument to [${_script_name}]
 #		Default:	8
 #		Uses:		Writes number of client configured torrc and pid files as well as
 #				setting up firewall rules for load balacing between.
 ## _email_address			# Set by [-EA=...] argument to [${_script_name}]
 #		Default:	no email, no email written to contact info
 #		Uses:		Writes email address to torrc configuration files for non-client options
-## _enable_ipv6				# Set by [-ipv6=...] argument to [${_script_name]
+## _enable_ipv6				# Set by [-ipv6=...] argument to [${_script_name}]
 #		Default:	no
 #		Uses:		Writes torrc configruations enabling IPv6 addresses for variase
 #				tor node types; bridge, client, exit, relay and available sub-types
 #				are all effected by this setting currently so be cairfull
-## _external_ipv4			# Set by [-Eipv4=...] argument to [${_script_name]
+## _external_ipv4			# Set by [-Eipv4=...] argument to [${_script_name}]
 #		Default:	Check [opendns.org] after prompt if empty
 #		Uses:		Required for tor node types; bridge, exit, relay
-## _external_ipv6			# Set by [-Eipv6=...] argument to [${_script_name]
+## _external_ipv6			# Set by [-Eipv6=...] argument to [${_script_name}]
 #		Default:	no default; experimental
 #		Uses:		Not currently used but latter versions my enable configuration
 #				of tor node types; bridge, exit, relay
-## _external_parse			# Set by [-ep=...] argument to [${_script_name]
+## _external_parse			# Set by [-ep=...] argument to [${_script_name}]
 #		Default:	1 or function's name
 #		Uses:		Internally used by [${_script_name}] to set what prompts are
 #				displaid during [Arg_checker_tor] function's run time. This may also
@@ -185,14 +187,14 @@ _service_types=""
 #				Only activated if setting up client via [-T="client"] option and ssh
 #				client files to [${HOME}/.ssh] directory for [-SHN=...] and [-SHD=...]
 #				options.
-## _install_method			# Set by [-I=...] argument to [${_script_name]
+## _install_method			# Set by [-I=...] argument to [${_script_name}]
 #		Default:	aptget
 #		Uses:		Alternetively [-I=source] maybe used though that will install [tor] or other
 #				packages from github zip file or developer hosted tar file. Note in some cases
 #				there maybe missing dependancies while using [source] as an option, so
 #				[${_script_name}] also provides [-I=safe] and [-I=experoment] to define installing
 #				using the safest or most experomental aproch; mainly usefull for firejail install
-## _nat_ipv4				# Set by [-Lipv4=...] argument to [${_script_name]
+## _nat_ipv4				# Set by [-Lipv4=...] argument to [${_script_name}]
 #		Default:	first live IPv4 address (usually eth0)
 #		Uses:		Nearlly all tor node types utilize this address at somepoint
 #				this should set itself automaticly but for systems with more than
@@ -200,7 +202,7 @@ _service_types=""
 #				if an differant IPv4 address is desired. As this uses [ip addr] command
 #				piped though [grep] and [awk] it should not pose a privacy risk to
 #				leave blank and let [${_script_name}] set things up.
-## _nat_ipv6			# Set by [-Lipv6=...] argument to [${_script_name]
+## _nat_ipv6			# Set by [-Lipv6=...] argument to [${_script_name}]
 #		Default:	no default, no auto values
 #		Uses:		Not used currently but latter versions may make use of this
 #				variable much like [-Lipv4] argument
@@ -276,23 +278,29 @@ _service_types=""
 ## _squid_user				# Set by [-SqU=...] argument to [${_script_name}]
 #		Default:	squid
 #		Uses:		
-## _temp_dir				# Set by [-t=...] argument to [${_script_name]
+## _temp_dir				# Set by [-t=...] argument to [${_script_name}]
 #		Default:	/tmp
 #		Uses:		When [-I=source] then this directory path is used to make new
 #				temperary directories for downloading and extracting source files
 #				additionally this is where all logs will eventually be saved to
 #				the host's system during [${_script_name}] run time
-## _tor_user				# Set by [-U=...] argument to [${_script_name]
+## _tor_user				# Set by [-U=...] argument to [${_script_name}]
 #		Default:	debian-tor
 #		Uses:		Sets the user and group to install and configure all tor node
 #				types. Best to leave as is unless you have good reason to deveate
-## _tor_directory			# Set by [-TD=...] argument to [${_script_name]
+## _tor_directory			# Set by [-TD=...] argument to [${_script_name}]
 #		Default:	/etc
 #		Uses:		Sets base diretory to look for [torrc] configuration files allong
 #				with where to look for [init.d] sub-directory for writing start/stop
 #				scripts for the available tor node types. Expands out to [/etc/tor]
 #				during [${_script_name}] run-time.
-## _tor_node_types			# Set by [-T=...] argument to [${_script_name]
+## _tor_dir_port			# Set by [-TDP=...] argument to [${_script_name}]
+#		Default:	9030
+#		Uses:		Sets DirPort for exit node torrc files.
+## _tor_dns_port			# Set by [-TDNSP=...] argument to [${_script_name}]
+#		Default:	5300
+#		Uses:		Sets DNSPort for client node torrc files.
+## _tor_node_types			# Set by [-T=...] argument to [${_script_name}]
 #		Default:	client
 #		Uses:		Other values are: bridge, exit, or relay currently and these
 #				maybe seperated by [#] signe to include more tor node types to setup
@@ -302,7 +310,7 @@ _service_types=""
 #				torrc files related to each type to enable public or private repectively
 #				by default the "safest" sub-option [private] if available will be
 #				set if not set by user
-## _tor_bridge_nickname			# Set by [-B=...] argument to [${_script_name]
+## _tor_bridge_nickname			# Set by [-B=...] argument to [${_script_name}]
 #		Default:	bridge
 #		Uses:		Sets name of [torrc-${_tor_bridge_nickname:-bridge}] file
 #				and the name of init start/stop scripts. Much like tor node types
@@ -321,7 +329,15 @@ _service_types=""
 #				used within relay torrc configs
 ## _tor_relay_bandwidth_burst		# Set by [-Rbr=...] argument to [${_script_name}]
 #				used within relay torrc configs
-## _tor_web_dir				# Set by [-W=...] argument to [${_script_name]
+## _tor_socks_bind_address	# Set by [-TSBA=...] argument to [${_script_name}]
+#		Default:	127.0.0.1
+#		Uses:		Sets the address to which torrc client configs will have written
+#				for [SocksBindAddress] configurations line.
+## _tor_socks_listen_address		# Set by [-TSLA=...] argument to [${_script_name}]
+#		Default:	127.0.0.1
+#		Uses:		Sets the address to which torrc client configs will have written
+#				for [SocksBindAddress] configurations line.
+## _tor_web_dir				# Set by [-W=...] argument to [${_script_name}]
 #		Default:	/var/www/tor
 #		Uses:		Sets tor types; exit and relay web directory for serving
 #				tor exit notice html file. Latter versions of [${_script_name}]
