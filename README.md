@@ -46,8 +46,6 @@ Print help documentation
     bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --help=Check_host_enviroment
     # Spiciffic help for "" & "" functions
     bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --help=Check_host_enviroment,Arg_checker
-
-
-## Install Tor as client with privoxy squid and bind9 local DNS server
-# bash Perinoid --var-file='client_tor_install_vars.sh'
+Install Tor as client with privoxy squid and bind9 local DNS server
+    bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --var-file='client_tor_install_vars.sh'
 
