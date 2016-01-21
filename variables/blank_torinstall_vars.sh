@@ -329,7 +329,7 @@ _service_types=""
 #				used within relay torrc configs
 ## _tor_relay_bandwidth_burst		# Set by [-Rbr=...] argument to [${_script_name}]
 #				used within relay torrc configs
-## _tor_socks_bind_address	# Set by [-TSBA=...] argument to [${_script_name}]
+## _tor_socks_bind_address			# Set by [-TSBA=...] argument to [${_script_name}]
 #		Default:	127.0.0.1
 #		Uses:		Sets the address to which torrc client configs will have written
 #				for [SocksBindAddress] configurations line.
