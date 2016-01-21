@@ -45,8 +45,8 @@ _tor_web_dir="${_tor_web_dir:-/var/www/tor}"
 _tor_service_clients="${_tor_service_clients:-USER}"
 _tor_or_port="${_tor_or_port:-443}"
 _tor_ssh_port="${_tor_ssh_port:-22422}"
-_tor_socks_bind_address="${_tor_socks_bind_address:-127.0.0.1}"
-_tor_socks_listen_address="${_tor_socks_listen_address:-127.0.0.1}"
+_tor_socks_bind_address="${_tor_socks_bind_address:-${_lo_ipv4%/*}}"
+_tor_socks_listen_address="${_tor_socks_listen_address:-${_lo_ipv4%/*}}"
 _tor_web_port="${_tor_web_port:-8080}"
 ### Default_variables_help default_variables_help default_variables.sh
 #	File:	${_script_dir}/functions/tor/sample_vars/default_variables.sh

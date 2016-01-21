@@ -15,6 +15,8 @@ _temp_dir="/tmp"
 _tor_user="debian-tor"
 _tor_directory="/etc"
 _tor_dns_port="5300"
+_tor_socks_bind_address="${_lo_ipv4%/*}"
+_tor_socks_listen_address="${_lo_ipv4%/*}"
 _tor_node_type="client"
 ### client_torinstall_vars_help client_torinstall_vars.sh
 #	File:	${_script_dir}/functions/tor/sample_vars/client_torinstall_vars.sh
