@@ -52,6 +52,12 @@ Check_host_enviroment(){
 	if [ "${#_hosts_dir}" = "0" ]; then
 		_hosts_dir=${_hosts_dir:-/etc}
 	fi
+	_lo_iface=$(ip addr show up lo | awk '/1: lo/{gsub(":",""); print $2}')
+	_lo_ipv4=$(ip addr show up lo | grep -vE 'inet6' | awk '/inet/{print $2}')
+	_lo_ipv6=$(ip addr show up lo | awk '/inet6/{print $2}')
+	if [ "${#_tor_socks_bind_address}" = "0" ]; then
+		_tor_socks_bind_address="${_lo_ipv4%/*}"
+	fi
 }
 ### Check_host_enviroment_help check_host_enviroment_help check_host_enviroment.sh
 #	File:	${_script_dir}/fuctions/shared/check_host_enviroment.sh
