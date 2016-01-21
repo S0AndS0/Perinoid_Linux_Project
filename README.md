@@ -58,7 +58,7 @@ Print help documentation
 
 `# Spiciffic help for "Check_host_enviroment" & "Arg_checker" functions`
 
-`bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --help=Check_host_enviroment,Arg_checker
+`bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --help=Check_host_enviroment,Arg_checker`
 
 Install Tor as client with privoxy squid and bind9 local DNS server
 
