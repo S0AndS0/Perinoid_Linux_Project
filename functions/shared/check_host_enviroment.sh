@@ -58,6 +58,9 @@ Check_host_enviroment(){
 	if [ "${#_tor_socks_bind_address}" = "0" ]; then
 		_tor_socks_bind_address="${_lo_ipv4%/*}"
 	fi
+	if [ "${#_tor_socks_listen_address}" = "0" ]; then
+		_tor_socks_listen_address="${_lo_ipv4%/*}"
+	fi
 }
 ### Check_host_enviroment_help check_host_enviroment_help check_host_enviroment.sh
 #	File:	${_script_dir}/fuctions/shared/check_host_enviroment.sh
