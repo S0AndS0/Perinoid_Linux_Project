@@ -160,6 +160,8 @@ _service_types=""
 #				it's subsiquent variables. This "hot-potato" action makes for an easire
 #				expireance when making modifications as errors or anomalies during
 #				[${_script_name}] run-time can be tracked back.
+### Note : Firejail configurations are still being de-bugged and are ment to be set during
+#	scripted run-time for setting up verious jails/sandboxes.
 ## _firejail_dir			# Set by [-FD=...] argument to [${_script_name}]
 #		Default:	/etc
 #		Uses:		
