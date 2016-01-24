@@ -1,31 +1,3 @@
-## Welcome to the Perinoid Linux project; the aims of which are simple, to build sandcastles against
-#	tides that atempt to wash away privacy. Thanks should be given to those that aided in this
-#	script pack's development, links to those documents that where interagle in educating the
-#	authors of this script can be found within the [info] directory. 
-## What does this script do?
-#	Simplely put, this a installation and configuration script bundle that is inspired from Whonix
-#	and other virtualization tecniques for security and compartimintalization.
-#	This script accepts agruments in the form of [-arg='...'] or [--argument='...']
-#	and if understood preforms the commanded action. If a command is not understood errors and
-#	helpfull documentation will display to aid users in compleating the installation processes
-#	next time around. Pipes maybe used such as [-arg="$(comand)"] by sourounding the piped command
-#	with dubble quotes. Additionally entire variable files maybe loaded via [-vf=/path/to/vars] or
-#	[--var-file=/path/to/vars] to avoid having to learn this scirpt's sytax for other arguements.
-#	Tor, firejail, firetools, nginx, privoxy, polipo, squid, bind9 are all currently available to
-#	install or re-configure through the use of [-A=application] or [-A=app1,app2] option and sellecting
-#	installation method maybe chosen via [-I=source] or [-I=apt-get] or [-I=safe] or [-I=experoment]
-#	options.
-## What does this script not do?
-#	It does not check host system for vurnablilaties or malware, nore does it make any geronty of
-#	increesed security or privacy. In fact depending on arguments passed you make make your
-#	location easier to obtain, ie running an exit or bridge Tor node publishes your externall
-#	IP address to others that nead to connect. This is because "privacy" and "anyonimity" are
-#	goals with many ends. Some users of these networks are more conserned with helping others acheive
-#	privacy so will run a bridge, exit, or relay depending upon prefferances and leagal ramifacations
-#	others are more conserned with personal privacy or anonimity of freinds so will instead
-#	opt for client or private bridge setup.
-
-
 ## Notes to editors, authors, and source code readers.
 #	This script pack is written in plain bash scripting language, much effort
 #	has been taken to keep base system requriements to just BusyBox at bair minimum.
