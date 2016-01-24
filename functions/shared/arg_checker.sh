@@ -7,6 +7,7 @@ Arg_checker(){
 		echo "## Notice [Arg_checker] parsing general arguments and setting thier variables..."
 		for _KEY in ${_script_args}; do
 			case "${_prefix}${_KEY}" in
+				-ep=*|--external-parse=*)		_key="-ep" ;		_value="${_KEY#*=}" ;;
 				-A=*|--apps-list=*)			_key="-A" ;		_value="${_KEY#*=}" ;;
 				-AT=*|--apt-target=*)			_key="-AT" ;		_value="${_KEY#*=}" ;;
 				-AY=*|--apt-yes=*)			_key="-AY" ;		_value="${_KEY#*=}" ;;
@@ -26,7 +27,6 @@ Arg_checker(){
 				-EA=*|--email-address=*)		_key="-EA" ;		_value="${_KEY#*=}" ;;
 				-Eipv4=*|--external-ipv4=*)		_key="-Eipv4" ;		_value="${_KEY#*=}" ;;
 				-Eipv6=*|--external-ipv6=*)		_key="-Eipv6" ;		_value="${_KEY#*=}" ;;
-				-ep=*|--external-parse=*)		_key="-ep" ;		_value="${_KEY#*=}" ;;
 				-ex=*|--exit=*)				_key="-ex" ;		_value="${_KEY#*=}" ;;
 				-FD=*|--firejail-dir=*)			_key="-FD" ;		_value="${_KEY#*=}" ;;
 				-FSN=*|--firejail-service-name=*)	_key="-FSN" ;		_value="${_KEY#*=}" ;;
@@ -82,9 +82,14 @@ Arg_checker(){
 				-W=*|--web-directory=*)			_key="-W" ;		_value="${_KEY#*=}" ;;
 			esac
 			case $_key in
+				-ep)
+					_prefix="" ; _key=""
+					_external_parse="${_value}"
+				;;
 				-A)
 					_prefix="" ; _key=""
 					_application_list="${_value}"
+					Output_variables_file "_application_list" "${_application_list}"
 				;;
 				-AT)
 					_prefix="" ; _key=""
@@ -93,66 +98,77 @@ Arg_checker(){
 				-AY)
 					_prefix="" ; _key=""
 					_auto_yn="${_value}"
+					Output_variables_file "_auto_yn" "${_auto_yn}"
 				;;
 				-ABipv4)
 					_prefix="" ; _key=""
 					_bridge_ipv4_to_add="${_value}"
+					Output_variables_file "_bridge_ipv4_to_add" "${_bridge_ipv4_to_add}"
 				;;
 				-ABipv6)
 					_prefix="" ; _key=""
 					_bridge_ipv6_to_add="${_value}"
+					Output_variables_file "_bridge_ipv6_to_add" "${_bridge_ipv6_to_add}"
 				;;
 				-ABf)
 					_prefix="" ; _key=""
 					_bridge_finger_print_to_add="${_value}"
+					Output_variables_file "_bridge_finger_print_to_add" "${_bridge_finger_print_to_add}"
 				;;
 				-ABt)
 					_prefix="" ; _key=""
 					_bridge_type_to_add="${_value}"
+					Output_variables_file "_bridge_type_to_add" "${_bridge_type_to_add}"
 				;;
 				-ABp)
 					_prefix="" ; _key=""
 					_bridge_port_to_add="${_value}"
+					Output_variables_file "_bridge_port_to_add" "${_bridge_port_to_add}"
 				;;
 				-B)
 					_prefix="" ; _key=""
 					_tor_bridge_nickname="${_value}"
+					Output_variables_file "_tor_bridge_nickname" "${_tor_bridge_nickname}"
 				;;
 				-BA)
 					_prefix="" ; _key=""
 					_btc_address="${_value}"
+					Output_variables_file "_btc_address" "${_btc_address}"
 				;;
 				-B9D)
 					_prefix="" ; _key=""
 					_bind9_dir="${_value}"
+					Output_variables_file "_bind9_dir" "${_bind9_dir}"
 				;;
 				-B9U)
 					_prefix="" ; _key=""
 					_bind9_user="${_value}"
+					Output_variables_file "_bind9_user" "${_bind9_user}"
 				;;
 				-B9ipv4)
 					_prefix="" ; _key=""
 					_bind9_ipv4="${_value}"
+					Output_variables_file "_bind9_ipv4" "${_bind9_ipv4}"
 				;;
 				-B9P)
 					_prefix="" ; _key=""
 					_bind9_port="${_value}"
+					Output_variables_file "_bind9_port" "${_bind9_port}"
 				;;
 				-C)
 					_prefix="" ; _key=""
 					_connection_count="${_value}"
+					Output_variables_file "_connection_count" "${_connection_count}"
 				;;
 				-E)
 					_prefix="" ; _key=""
 					_tor_exit_nickname="${_value}"
+					Output_variables_file "_tor_exit_nickname" "${_tor_exit_nickname}"
 				;;
 				-EA)
 					_prefix="" ; _key=""
 					_email_address="${_value}"
-				;;
-				-ep)
-					_prefix="" ; _key=""
-					_external_parse="${_value}"
+					Output_variables_file "_email_address" "${_email_address}"
 				;;
 				-ex)
 					_prefix="" ; _key=""
@@ -161,34 +177,42 @@ Arg_checker(){
 				-FD)
 					_prefix="" ; _key=""
 					_firejail_dir="${_value}"
+					Output_variables_file "_firejail_dir" "${_firejail_dir}"
 				;;
 				-FSN)
 					_prefix="" ; _key=""
 					_firejail_service_name="${_value}"
+					Output_variables_file "_firejail_service_name" "${_firejail_service_name}"
 				;;
 				-FBI)
 					_prefix="" ; _key=""
 					_firejail_bridge_interface="${_value}"
+					Output_variables_file "_firejail_bridge_interface" "${_firejail_bridge_interface}"
 				;;
 				-FBF)
 					_prefix="" ; _key=""
 					_firejail_bridge_forward="${_value}"
+					Output_variables_file "_firejail_bridge_forward" "${_firejail_bridge_forward}"
 				;;
 				-FHI)
 					_prefix="" ; _key=""
 					_firejail_host_interface="${_value}"
+					Output_variables_file "_firejail_host_interface" "${_firejail_host_interface}"
 				;;
 				-FBipv4)
 					_prefix="" ; _key=""
 					_firejail_bridge_ipv4="${_value}"
+					Output_variables_file "_firejail_bridge_ipv4" "${_firejail_bridge_ipv4}"
 				;;
 				-FNipv4)
 					_prefix="" ; _key=""
 					_firejail_nat_ipv4="${_value}"
+					Output_variables_file "_firejail_nat_ipv4" "${_firejail_nat_ipv4}"
 				;;
 				-HAC)
 					_prefix="" ; _key=""
 					_hidden_auth_cookie="${_value}"
+					Output_variables_file "_hidden_auth_cookie" "${_hidden_auth_cookie}"
 				;;
 				-H)
 					_prefix="" ; _key=""
@@ -201,54 +225,67 @@ Arg_checker(){
 				-I)
 					_prefix="" ; _key=""
 					_install_method="${_value}"
+					Output_variables_file "_install_method" "${_install_method}"
 				;;
 				-Eipv4)
 					_prefix="" ; _key=""
 					_external_ipv4="${_value}"
+					Output_variables_file "_external_ipv4" "${_external_ipv4}"
 				;;
 				-Eipv6)
 					_prefix="" ; _key=""
 					_external_ipv6="${_value}"
+					Output_variables_file "_external_ipv6" "${_external_ipv6}"
 				;;
 				-ipv6)
 					_prefix="" ; _key=""
 					_enable_ipv6="${_value}"
+					Output_variables_file "_enable_ipv6" "${_enable_ipv6}"
 				;;
 				-Lipv4)
 					_prefix="" ; _key=""
 					_nat_ipv4="${_value}"
+					Output_variables_file "_nat_ipv4" "${_nat_ipv4}"
 				;;
 				-Lipv6)
 					_prefix="" ; _key=""
 					_nat_ipv6="${_value}"
+					Output_variables_file "_nat_ipv6" "${_nat_ipv6}"
 				;;
 				-ND)
 					_prefix="" ; _key=""
 					_nginx_dir="${_value}"
+					Output_variables_file "_nginx_dir" "${_nginx_dir}"
 				;;
 				-NI)
 					_prefix="" ; _key=""
 					_nginx_index="${_value}"
+					Output_variables_file "_nginx_index" "${_nginx_index}"
 				;;
 				-NHP)
 					_prefix="" ; _key=""
 					_nginx_http_port="${_value}"
+					Output_variables_file "_nginx_http_port" "${_nginx_http_port}"
 				;;
 				-NSN)
 					_prefix="" ; _key=""
 					_nginx_service_name="${_value}"
+					Output_variables_file "_nginx_service_name" "${_nginx_service_name}"
 				;;
 				-NSP)
 					_prefix="" ; _key=""
 					_nginx_ssl_port="${_value}"
+					Output_variables_file "_nginx_ssl_port" "${_nginx_ssl_port}"
 				;;
 				-NU)
 					_prefix="" ; _key=""
 					_nginx_url="${_value}"
+					Output_variables_file "_nginx_url" "${_nginx_url}"
 				;;
 				-OSP)
 					_prefix="" ; _key=""
 					_openssh_port="${_value}"
+					Output_variables_file "_openssh_port" "${_openssh_port}"
 				;;
 				-p)
 					_prefix="" ; _key=""
@@ -257,114 +294,142 @@ Arg_checker(){
 				-PD)
 					_prefix="" ; _key=""
 					_privoxy_dir="${_value}"
+					Output_variables_file "_privoxy_dir" "${_privoxy_dir}"
 				;;
 				-PU)
 					_prefix="" ; _key=""
 					_privoxy_user="${_value}"
+					Output_variables_file "_privoxy_user" "${_privoxy_user}"
 				;;
 				-PoD)
 					_prefix="" ; _key=""
 					_polipo_dir="${_value}"
+					Output_variables_file "_polipo_dir" "${_polipo_dir}"
 				;;
 				-PoU)
 					_prefix="" ; _key=""
 					_polipo_user="${_value}"
+					Output_variables_file "_polipo_user" "${_polipo_user}"
 				;;
 				-R)
 					_prefix="" ; _key=""
 					_tor_relay_nickname="${_value}"
+					Output_variables_file "_tor_relay_nickname" "${_tor_relay_nickname}"
 				;;
 				-Rbr)
 					_prefix="" ; _key=""
 					_tor_relay_bandwidth_rate="${_value}"
+					Output_variables_file "_tor_relay_bandwidth_rate" "${_tor_relay_bandwidth_rate}"
 				;;
 				-Rbb)
 					_prefix="" ; _key=""
 					_tor_relay_bandwidth_burst="${_value}"
+					Output_variables_file "_tor_relay_bandwidth_burst" "${_tor_relay_bandwidth_burst}"
 				;;
 				-SHN)
 					_prefix="" ; _key=""
 					_ssh_host_name="${_value}"
+					Output_variables_file "_ssh_host_name" "${_ssh_host_name}"
 				;;
 				-SHD)
 					_prefix="" ; _key=""
 					_ssh_host_domain="${_value}"
+					Output_variables_file "_ssh_host_domain" "${_ssh_host_domain}"
 				;;
 				-SqD)
 					_prefix="" ; _key=""
 					_squid_dir="${_value}"
+					Output_variables_file "_squid_dir" "${_squid_dir}"
 				;;
 				-SqU)
 					_prefix="" ; _key=""
 					_squid_user="${_value}"
+					Output_variables_file "_squid_user" "${_squid_user}"
 				;;
 				-T)
 					_prefix="" ; _key=""
 					_tor_node_types="${_value}"
+					Output_variables_file "_tor_node_types" "${_tor_node_types}"
 				;;
 				-TBT)
 					_prefix="" ; _key=""
-					_bridge_types="${_value},${_bridge_types}"
+					_bridge_types="${_value}"
+					Output_variables_file "_bridge_types" "${_bridge_types}"
 				;;
 				-TCT)
 					_prefix="" ; _key=""
-					_client_types="${_value},${_client_types}"
+					_client_types="${_value}"
+					Output_variables_file "_client_types" "${_client_types}"
 				;;
 				-TET)
 					_prefix="" ; _key=""
-					_exit_types="${_value},${_exit_types}"
+					_exit_types="${_value}"
+					Output_variables_file "_exit_types" "${_exit_types}"
 				;;
 				-TRT)
 					_prefix="" ; _key=""
-					_relay_types="${_value},${_relay_types}"
+					_relay_types="${_value}"
+					Output_variables_file "_relay_types" "${_relay_types}"
 				;;
 				-TST)
 					_prefix="" ; _key=""
-					_service_types="${_value},${_service_types}"
+					_service_types="${_value}"
+					Output_variables_file "_service_types" "${_service_types}"
 				;;
 				-TD)
 					_prefix="" ; _key=""
 					_tor_directory="${_value}"
+					Output_variables_file "_tor_directory" "${_tor_directory}"
 				;;
 				-TDP)
 					_prefix="" ; _key=""
 					_tor_dir_port="${_value}"
+					Output_variables_file "_tor_dir_port" "${_tor_dir_port}"
 				;;
 				-TDNSP)
 					_prefix="" ; _key=""
 					_tor_dns_port="${_value}"
+					Output_variables_file "_tor_dns_port" "${_tor_dns_port}"
 				;;
 				-TSC)
 					_prefix="" ; _key=""
 					_tor_service_clients="${_value}"
+					Output_variables_file "_tor_service_clients" "${_tor_service_clients}"
 				;;
 				-TSP)
 					_prefix="" ; _key=""
 					_tor_ssh_port="${_value}"
+					Output_variables_file "_tor_ssh_port" "${_tor_ssh_port}"
 				;;
 				-TSBA)
 					_prefix="" ; _key=""
 					_tor_socks_bind_address="${_value}"
+					Output_variables_file "_tor_socks_bind_address" "${_tor_socks_bind_address}"
 				;;
 				-TSLA)
 					_prefix="" ; _key=""
 					_tor_socks_listen_address="${_value}"
+					Output_variables_file "_tor_socks_listen_address" "${_tor_socks_listen_address}"
 				;;
 				-TWP)
 					_prefix="" ; _key=""
 					_tor_web_port="${_value}"
+					Output_variables_file "_tor_web_port" "${_tor_web_port}"
 				;;
 				-TOP)
 					_prefix="" ; _key=""
 					_tor_or_port="${_value}"
+					Output_variables_file "_tor_or_port" "${_tor_or_port}"
 				;;
 				-t)
 					_prefix="" ; _key=""
 					_temp_dir="${_value}"
+					Output_variables_file "_temp_dir" "${_temp_dir}"
 				;;
 				-TU)
 					_prefix="" ; _key=""
 					_tor_user="${_value}"
+					Output_variables_file "_tor_user" "${_tor_user}"
 				;;
 				-vf)
 					_prefix="" ; _key=""
@@ -373,6 +438,7 @@ Arg_checker(){
 				-W)
 					_prefix="" ; _key=""
 					_tor_web_dir="${_value}"
+					Output_variables_file "_tor_web_dir" "${_tor_web_dir}"
 				;;
 			esac
 		done
