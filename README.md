@@ -84,5 +84,7 @@ bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --help=Check_hos
 
 Install Tor as client with privoxy squid and bind9 local DNS server
 
-`bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --var-file='client_tor_install_vars.sh'`
+```bash
+bash ~/Downloads/GitSources/Perinoid_Linux_Project/Sancastle.sh --var-file='client_tor_install_vars.sh'
+```
 
