@@ -8,7 +8,6 @@ Source_shared_functions(){
 	source "${_dir}/shared/install_apt.sh"
 	source "${_dir}/shared/make_random_passwd.sh"
 	source "${_dir}/shared/output_variables_file.sh"
-	source "${_dir}/shared/output_firewall_configs.sh"
 	source "${_dir}/shared/overwrite_config_checker.sh"
 	source "${_dir}/shared/overwrite_init_checker.sh"
 	source "${_dir}/shared/parse_apt_autoclean.sh"
