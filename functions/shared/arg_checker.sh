@@ -16,6 +16,8 @@ Arg_checker(){
 				-ABf=*|--add-bridge-finger=*)		_key="-ABf" ;		_value="${_KEY#*=}" ;;
 				-ABt=*|--add-bridge-type=*)		_key="-ABt" ;		_value="${_KEY#*=}" ;;
 				-ABp=*|--add-bridge-port=*)		_key="-ABp" ;		_value="${_KEY#*=}" ;;
+				-aipv4=*|--admin-ipv4=*)		_key="-aipv4" ;		_value="${_KEY#*=}" ;;
+				-aipv6=*|--admin-ipv4=*)		_key="-aipv6" ;		_value="${_KEY#*=}" ;;
 				-B=*|--bridge-nickname=*)		_key="-B" ;		_value="${_KEY#*=}" ;;
 				-BA=*|--btc-address=*)			_key="-BA" ;		_value="${_KEY#*=}" ;;
 				-B9D=*|--bind9-dir=*)			_key="-B9D" ;		_value="${_KEY#*=}" ;;
@@ -62,13 +64,14 @@ Arg_checker(){
 				-SqD=*|--squid-dir=*)			_key="-SqD" ;		_value="${_KEY#*=}" ;;
 				-SqU=*|--squid-user=*)			_key="-SqU" ;		_value="${_KEY#*=}" ;;
 				-T=*|--tor-node-types=*)		_key="-T" ;		_value="${_KEY#*=}" ;;
+				-TD=*|--tor-directory=*)		_key="-TD" ;		_value="${_KEY#*=}" ;;
+				-TU=*|--tor-user=*)			_key="-TU" ;		_value="${_KEY#*=}" ;;
 				-TBT=*|--tor-bridge-types=*)		_key="-TBT" ;		_value="${_KEY#*=}" ;;
 				-TCT=*|--tor-client-types=*)		_key="-TCT" ;		_value="${_KEY#*=}" ;;
+				-TDP=*|--tor-dir-port=*)		_key="-TDP" ;		_value="${_KEY#*=}" ;;
 				-TET=*|--tor-exit-types=*)		_key="-TET" ;		_value="${_KEY#*=}" ;;
 				-TRT=*|--tor-relay-types=*)		_key="-TRT" ;		_value="${_KEY#*=}" ;;
 				-TST=*|--tor-service-types=*)		_key="-TST" ;		_value="${_KEY#*=}" ;;
-				-TD=*|--tor-directory=*)		_key="-TD" ;		_value="${_KEY#*=}" ;;
-				-TDP=*|--tor-dir-port=*)		_key="-TDP" ;		_value="${_KEY#*=}" ;;
 				-TSP=*|--tor-ssh-port=*)		_key="-TSP" ;		_value="${_KEY#*=}" ;;
 				-TDNSP=*|--tor-dns-port=*)		_key="-TDNSP" ;		_value="${_KEY#*=}" ;;
 				-TSC=*|--tor-service-client=*)		_key="-TSC" ;		_value="${_KEY#*=}" ;;
@@ -77,7 +80,7 @@ Arg_checker(){
 				-TWP=*|--tor-web-port=*)		_key="-TWP" ;		_value="${_KEY#*=}" ;;
 				-TOP=*|--tor-or-port=*)			_key="-TOP" ;		_value="${_KEY#*=}" ;;
 				-t=*|--temp-directory=*)		_key="-t" ;		_value="${_KEY#*=}" ;;
-				-TU=*|--tor-user=*)			_key="-TU" ;		_value="${_KEY#*=}" ;;
+				-tcp-ports=*|--tcp-ports=*)		_key="-tcp-ports" ;		_value="${_KEY#*=}" ;;
 				-vf=*|--var-file=*)			_key="-vf" ;		_value="${_KEY#*=}" ;;
 				-W=*|--web-directory=*)			_key="-W" ;		_value="${_KEY#*=}" ;;
 			esac
@@ -124,6 +127,16 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_bridge_port_to_add="${_value}"
 					Output_variables_file "_bridge_port_to_add" "${_bridge_port_to_add}"
+				;;
+				-aipv4)
+					_prefix="" ; _key=""
+					_admin_ipv4="${_value}"
+					Output_variables_file "_admin_ipv4" "${_admin_ipv4}"
+				;;
+				-aipv6)
+					_prefix="" ; _key=""
+					_admin_ipv6="${_value}"
+					Output_variables_file "_admin_ipv6" "${_admin_ipv6}"
 				;;
 				-B)
 					_prefix="" ; _key=""
@@ -351,6 +364,16 @@ Arg_checker(){
 					_tor_node_types="${_value}"
 					Output_variables_file "_tor_node_types" "${_tor_node_types}"
 				;;
+				-TD)
+					_prefix="" ; _key=""
+					_tor_directory="${_value}"
+					Output_variables_file "_tor_directory" "${_tor_directory}"
+				;;
+				-TU)
+					_prefix="" ; _key=""
+					_tor_user="${_value}"
+					Output_variables_file "_tor_user" "${_tor_user}"
+				;;
 				-TBT)
 					_prefix="" ; _key=""
 					_bridge_types="${_value}"
@@ -360,6 +383,11 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_client_types="${_value}"
 					Output_variables_file "_client_types" "${_client_types}"
+				;;
+				-TDP)
+					_prefix="" ; _key=""
+					_tor_dir_port="${_value}"
+					Output_variables_file "_tor_dir_port" "${_tor_dir_port}"
 				;;
 				-TET)
 					_prefix="" ; _key=""
@@ -375,16 +403,6 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_service_types="${_value}"
 					Output_variables_file "_service_types" "${_service_types}"
-				;;
-				-TD)
-					_prefix="" ; _key=""
-					_tor_directory="${_value}"
-					Output_variables_file "_tor_directory" "${_tor_directory}"
-				;;
-				-TDP)
-					_prefix="" ; _key=""
-					_tor_dir_port="${_value}"
-					Output_variables_file "_tor_dir_port" "${_tor_dir_port}"
 				;;
 				-TDNSP)
 					_prefix="" ; _key=""
@@ -426,10 +444,10 @@ Arg_checker(){
 					_temp_dir="${_value}"
 					Output_variables_file "_temp_dir" "${_temp_dir}"
 				;;
-				-TU)
+				-tcp-ports)
 					_prefix="" ; _key=""
-					_tor_user="${_value}"
-					Output_variables_file "_tor_user" "${_tor_user}"
+					_tcp_ports="${_value}"
+					Output_variables_file "_tcp_ports" "${_tcp_ports}"
 				;;
 				-vf)
 					_prefix="" ; _key=""
