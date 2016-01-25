@@ -5,7 +5,7 @@ Project goals : to build sandcastles (metaforicly speeking) against tides that a
 Thanks should be given to those that aided in this script pack's development, links to those documents that
 where interagle in educating the authors of this script can be found within the [info] directory. 
 
-See the Read_Me.txt file for command line and script editing instructions.
+See the [Read_Me.txt](https://github.com/S0AndS0/Perinoid_Linux_Project/blob/master/Read_Me.txt) file and project [wiki](https://github.com/S0AndS0/Perinoid_Linux_Project/wiki) for command line and script editing instructions.
 
 # Not all features compleat!
 
