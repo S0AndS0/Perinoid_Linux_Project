@@ -1,7 +1,7 @@
 #!/bin/bash
  _admin_ipv4=""
  _admin_ipv6=""
- _external_ipv4="74.140.45.54"
+ _external_ipv4=""
  _make_bridge_forwarding="no"
 # _bridge_internal_iface="br0"
  _bridge_port_pares="80:8080,443:8081"
