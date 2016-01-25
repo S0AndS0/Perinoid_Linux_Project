@@ -7,6 +7,7 @@ Source_shared_functions(){
 	source "${_dir}/shared/fix_apt_keys.sh"
 	source "${_dir}/shared/install_apt.sh"
 	source "${_dir}/shared/make_random_passwd.sh"
+	source "${_dir}/shared/output_iptables_varfile.sh
 	source "${_dir}/shared/output_variables_file.sh"
 	source "${_dir}/shared/overwrite_config_checker.sh"
 	source "${_dir}/shared/overwrite_init_checker.sh"
