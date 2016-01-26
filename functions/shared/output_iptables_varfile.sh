@@ -3,11 +3,12 @@ Output_iptables_varfile(){
 ## TO-DO : Add the following variable assignments based on installation/configuration
 ## options chosen.
 #	_tcp_ports=""
+#	_dns_ports=""
+#	_dns_addresses=""
 #	_make_bridge_forwarding=""
 #	_bridge_internal_iface=""
 #	_bridge_port_pares=""
 #	_enable_forwarding=""
-#	_dns_port=""
 #	_ssh_port=""
 #	_http_port=""
 #	_ssl_port=""
