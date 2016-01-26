@@ -32,32 +32,9 @@ networks are more conserned with helping others acheive privacy so will run a br
 depending upon prefferances and leagal ramifacations others are more conserned with personal privacy or 
 anonimity of freinds so will instead opt for client or private bridge setup.
 
-
 No licences just yet, and no warienties or geronties of any kind.
 
 # Use at your own risk
-
-# S0AndS0's To-Do list
-
-- add options beyond [-C=...] for setting socks port in Tor client torrc file and Privoxy
-
-- compleat nginx installation and configuration for hidden service, exit and public bridge node options
-
-- incorperate firewall directory's scipts into `functions/iptables` directory and add parser
-
-- add fail2ban filters and actions for hidden services and exit nodes
-
-- add Whonix installer to main script
-
-- add `KVM` installer to main script
-
-- add `VMWare` installer to main script
-
-- add apparmor and selinux configurations/modifications
-
-- add ModSecurity installation and configurations for exsisting nginx source install options
-
-- add sujestions from requests
 
 # Quick start guide for `Sandcastle.sh`
 
