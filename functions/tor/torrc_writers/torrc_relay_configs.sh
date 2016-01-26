@@ -13,7 +13,7 @@ Torrc_relay_configs(){
 		echo "RelayBadwidthRate ${_tor_relay_bandwith_rate:-5} Mbits" | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo "RelayBadwidthBurst ${_tor_relay_bandwith_burst:-10} Mbits" | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo "#ContactInfo ${_email_address} - ${_btc_address}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
-		echo 'DirPort 80' | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
+		echo "DirPort ${_tor_dir_port:-80}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo "DirPortFrountPage ${_tor_dir}/tor-exit-notic.html" | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo '#MyFamily $($KEYID),$($KEYID)...' | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo "ExitPolicy reject ${_external_ipv4}:*" | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
