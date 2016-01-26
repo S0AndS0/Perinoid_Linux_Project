@@ -33,11 +33,9 @@ Torrc_bridge_configs(){
 				echo 'VirtualAddrNetwork 10.192.0.0/10' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo 'AutomapHostsOnResolve 1' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo 'TransPort 9040' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
-				echo 'DNSPort 9053' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo "TransListenAddress ${_nat_ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
-				echo "DNSPort 9053" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
+				echo "DNSPort ${_tor_dns_port:-9053}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo "DNSListenAddress ${_nat_ipv4}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_node_name}
-				
 			;;
 			public)
 				echo 'PublishServerDescriptor 1' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
