@@ -4,15 +4,15 @@ Torrc_exit_configs(){
 	_tor_dir="${_tor_directory:-/etc}/tor"
 	Overwrite_config_checker "${_tor_directory}/tor/torrc-${_tor_exit_nickname}"
 	echo 'ClientOnly 0' | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
-	if [ "${#_external_ip4v}" != "0" ]; then
-		echo "DirPort ${_external_ip4v}:${_tor_dir_port:-9030}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+	if [ "${#_external_ipv4}" != "0" ]; then
+		echo "DirPort ${_external_ipv4}:${_tor_dir_port:-9030}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 	else
 		echo "DirPort ${_tor_dir_port:-9030}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 	fi
-	if [ "${#_nat_Ipv4}" != "0" ]; then
-		echo "Address ${_nat_Ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
-		echo "OutboundBindAddress ${_nat_Ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
-		echo "ORPort ${_nat_Ipv4}:${_tor_or_port:-9001}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+	if [ "${#_nat_ipv4}" != "0" ]; then
+		echo "Address ${_nat_ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+		echo "OutboundBindAddress ${_nat_ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
+		echo "ORPort ${_nat_ipv4}:${_tor_or_port:-9001}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 	else
 		echo "ORPort ${_tor_or_port:-9001}" | sudo tee -a ${_tor_dir}/torrc-${_tor_exit_nickname}
 	fi
