@@ -37,6 +37,7 @@ Arg_checker(){
 				-FHI=*|--firejail-host-interface=*)	_key="-FHI" ;		_value="${_KEY#*=}" ;;
 				-FBipv4=*|--firejail-bridge-ipv4=*)	_key="-FBipv4" ;	_value="${_KEY#*=}" ;;
 				-FNipv4=*|--firejail-nat-ipv4=*)	_key="-FNipv4" ;	_value="${_KEY#*=}" ;;
+				-F2BD=*|--fail2ban-dir=*)			_key="-F2BD" ;		_value="${_KEY#*=}" ;;
 				-HAC=*|--hidden-auth-cookie=*)		_key="-HAC" ;		_value="${_KEY#*=}" ;;
 				-h=*|--help=*)				_key="-H" ;		_value="${_KEY#*=}" ;;
 				-h|--help)				_key="-h" ;		_value="${_KEY#*=}" ;;
@@ -221,6 +222,11 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_firejail_nat_ipv4="${_value}"
 					Output_variables_file "_firejail_nat_ipv4" "${_firejail_nat_ipv4}"
+				;;
+				-F2BD)
+					_prefix="" ; _key=""
+					_fail2ban_dir="${_value}"
+					Output_variables_file "_fail2ban_dir" "${_fail2ban_dir}"
 				;;
 				-HAC)
 					_prefix="" ; _key=""
