@@ -1,7 +1,7 @@
 # Perinoid_Linux_Project
 Where a Linux sys-admin's perinoid scripts are collected.
 
-Project goals : to build sandcastles (metaforicly speeking) against tides that atempt to wash away privacy.
+Project goals : to build sandcastles (metaphorically speaking) against tides that atempt to wash away privacy.
 Thanks should be given to those that aided in this script pack's development, links to those documents that
 where interagle in educating the authors of this script can be found within the [info] directory. 
 
@@ -11,28 +11,28 @@ See the [Read_Me.txt](https://github.com/S0AndS0/Perinoid_Linux_Project/blob/mas
 
 # What does this script do?
 
-Simplely put, this a installation and configuration script bundle that is inspired from Whonix and other 
-virtualization tecniques for security and compartimintalization. This script accepts agruments in the 
+Simply put, this a installation and configuration script bundle that is inspired from Whonix and other 
+virtualization techniques for security and compartmentalization. This script accepts arguments in the 
 form of [-arg='...'] or [--argument='...'] and if understood preforms the commanded action. If a command 
-is not understood errors and helpfull documentation will display to aid users in compleating the installation 
+is not understood errors and helpfull documentation will display to aid users in completing the installation 
 processes next time around. Pipes maybe used such as [-arg="$(comand)"] by sourounding the piped command 
 with dubble quotes. Additionally entire variable files maybe loaded via [-vf=/path/to/vars] or 
-[--var-file=/path/to/vars] to avoid having to learn this scirpt's sytax for other arguements. Tor, firejail, 
+[--var-file=/path/to/vars] to avoid having to learn this script's syntax for other arguments. Tor, firejail, 
 firetools, nginx, privoxy, polipo, squid, bind9 are all currently available to install or re-configure 
-through the use of [-A=application] or [-A=app1,app2] option and sellecting installation method maybe 
-chosen via [-I=source] or [-I=apt-get] or [-I=safe] or [-I=experoment] options.
+through the use of [-A=application] or [-A=app1,app2] option and selecting installation method maybe 
+chosen via [-I=source] or [-I=apt-get] or [-I=safe] or [-I=experiment] options.
 
 # What does this script not do?
 
-This script does not check host system for vurnablilaties or malware, nore does it make any geronty of 
-increesed security or privacy. In fact depending on arguments passed you make make your location easier 
-to obtain, ie running an exit or bridge Tor node publishes your externall IP address to others that nead 
+This script does not check host system for vurnablilaties or malware, nor does it make any geronty of 
+increased security or privacy. In fact depending on arguments passed you make make your location easier 
+to obtain, ie running an exit or bridge Tor node publishes your external IP address to others that nead 
 to connect. This is because "privacy" and "anyonimity" are goals with many ends. Some users of these 
-networks are more conserned with helping others acheive privacy so will run a bridge, exit, or relay 
-depending upon prefferances and leagal ramifacations others are more conserned with personal privacy or 
-anonimity of freinds so will instead opt for client or private bridge setup.
+networks are more concerned with helping others acheive privacy so will run a bridge, exit, or relay 
+depending upon preferences and legal ramifications others are more concerned with personal privacy or 
+anonymity of friends so will instead opt for client or private bridge setup.
 
-No licences just yet, and no warienties or geronties of any kind.
+No licences just yet, and no warranties or geronties of any kind.
 
 # Use at your own risk
 
