@@ -16,7 +16,7 @@ Torrc_bridge_configs(){
 	echo "BandwidthBurst 350 Kbytes" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 	echo 'AccountingStart month 1 00:00' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 	echo "AccountingMax 80 GB" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
-	echo "ORPort ${_tor_or_port:-443}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
+	echo "ORPort ${_tor_or_port:-8443}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 	echo 'ClientOnly 0' | sudo tee -a ${_torrc_dir}/torrc-${_tor_node_name}
 	echo 'ExcludeSingleHopRelays 1' | sudo tee -a ${_torrc_dir}/torrc-${_tor_node_name}
 	echo 'Exitpolicy reject *:*' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
@@ -29,10 +29,10 @@ Torrc_bridge_configs(){
 			private)
 				echo 'PublishServerDescriptor 0' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo "Address ${_nat_ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
-				echo "ORListenAddress ${_nat_ipv4}:${_tor_or_port:-443}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
-				echo 'VirtualAddrNetwork 10.192.0.0/10' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
+				echo "ORListenAddress ${_nat_ipv4}:${_tor_or_port:-8443}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
+				echo "VirtualAddrNetwork ${_tor_virtual_addr_network:-10.192.0.0/10}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo 'AutomapHostsOnResolve 1' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
-				echo 'TransPort 9040' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
+				echo "TransPort ${_tor_trans_port:-9040}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo "TransListenAddress ${_nat_ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo "DNSPort ${_tor_dns_port:-9053}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo "DNSListenAddress ${_nat_ipv4}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_node_name}
@@ -41,7 +41,7 @@ Torrc_bridge_configs(){
 				echo 'PublishServerDescriptor 1' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo "Address ${_external_ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo "OutboundBindAddress ${_external_ipv4}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
-				echo "ORListenAddress ${_external_ipv4}:${_tor_or_port:-443}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
+				echo "ORListenAddress ${_external_ipv4}:${_tor_or_port:-8443}" | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				echo 'SocksPort 0' | sudo tee -a ${_tor_dir}/torrc-${_tor_node_name}
 				
 			;;
