@@ -8,7 +8,7 @@ Torrc_relay_configs(){
 		echo 'ClientOnly 0' | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo 'SocksPort 0' | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo 'Log notice stout' | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
-		echo 'ControlPort 9051' | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
+		echo "ControlPort ${_tor_relay_control_port:-9051}" | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo 'CookieAuthentication 1' | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo "RelayBadwidthRate ${_tor_relay_bandwith_rate:-5} Mbits" | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
 		echo "RelayBadwidthBurst ${_tor_relay_bandwith_burst:-10} Mbits" | sudo tee -a ${_torrc_dir}/torrc-${_tor_relay_nickname}
