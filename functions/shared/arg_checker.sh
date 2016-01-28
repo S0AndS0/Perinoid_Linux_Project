@@ -56,7 +56,7 @@ Arg_checker(){
 				-PD=*|--privoxy-dir=*)			_key="-PD" ;		_value="${_KEY#*=}" ;;
 				-PU=*|--privoxy-user=*)			_key="-PU" ;		_value="${_KEY#*=}" ;;
 				-PoD=*|--polipo-dir=*)			_key="-PoD" ;		_value="${_KEY#*=}" ;;
-				-PoU=*|--polipo-userr=*)		_key="-PoU" ;		_value="${_KEY#*=}" ;;
+				-PoU=*|--polipo-user=*)		_key="-PoU" ;		_value="${_KEY#*=}" ;;
 				-R=*|--relay-nickname=*)		_key="-R" ;		_value="${_KEY#*=}" ;;
 				-Rbr=*|--relay-bandwidth-rate=*)	_key="-Rbr" ;		_value="${_KEY#*=}" ;;
 				-Rbb=*|--relay-bandwidth-burst=*)	_key="-Rbb" ;		_value="${_KEY#*=}" ;;
@@ -72,14 +72,18 @@ Arg_checker(){
 				-TDP=*|--tor-dir-port=*)		_key="-TDP" ;		_value="${_KEY#*=}" ;;
 				-TET=*|--tor-exit-types=*)		_key="-TET" ;		_value="${_KEY#*=}" ;;
 				-TRT=*|--tor-relay-types=*)		_key="-TRT" ;		_value="${_KEY#*=}" ;;
+				-TRCP=*|--tor-relay-control-port=*)		_key="-TRCP" ;		_value="${_KEY#*=}" ;;
 				-TST=*|--tor-service-types=*)		_key="-TST" ;		_value="${_KEY#*=}" ;;
 				-TSP=*|--tor-ssh-port=*)		_key="-TSP" ;		_value="${_KEY#*=}" ;;
 				-TDNSP=*|--tor-dns-port=*)		_key="-TDNSP" ;		_value="${_KEY#*=}" ;;
 				-TSC=*|--tor-service-client=*)		_key="-TSC" ;		_value="${_KEY#*=}" ;;
+				-TSA=*|--tor-service-address=*)		_key="-TSA" ;		_value="${_KEY#*=}" ;;
 				-TSBA=*|--tor-socks-bind-address=*)		_key="-TSBA" ;		_value="${_KEY#*=}" ;;
 				-TSLA=*|--tor-socks-listen-address=*)	_key="-TSLA" ;		_value="${_KEY#*=}" ;;
 				-TWP=*|--tor-web-port=*)		_key="-TWP" ;		_value="${_KEY#*=}" ;;
 				-TOP=*|--tor-or-port=*)			_key="-TOP" ;		_value="${_KEY#*=}" ;;
+				-TVAN=*|--tor-virtual-addr-network=*)	_key="-TVAN" ;		_value="${_KEY#*=}" ;;
+				-TTP=*|--tor-trans-port=*)			_key="-TTP" ;		_value="${_KEY#*=}" ;;
 				-t=*|--temp-directory=*)		_key="-t" ;		_value="${_KEY#*=}" ;;
 				-tcp-ports=*|--tcp-ports=*)		_key="-tcp-ports" ;		_value="${_KEY#*=}" ;;
 				-vf=*|--var-file=*)			_key="-vf" ;		_value="${_KEY#*=}" ;;
@@ -184,6 +188,16 @@ Arg_checker(){
 					_email_address="${_value}"
 					Output_variables_file "_email_address" "${_email_address}"
 				;;
+				-Eipv4)
+					_prefix="" ; _key=""
+					_external_ipv4="${_value}"
+					Output_variables_file "_external_ipv4" "${_external_ipv4}"
+				;;
+				-Eipv6)
+					_prefix="" ; _key=""
+					_external_ipv6="${_value}"
+					Output_variables_file "_external_ipv6" "${_external_ipv6}"
+				;;
 				-ex)
 					_prefix="" ; _key=""
 					_exit="${_value}"
@@ -245,16 +259,6 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_install_method="${_value}"
 					Output_variables_file "_install_method" "${_install_method}"
-				;;
-				-Eipv4)
-					_prefix="" ; _key=""
-					_external_ipv4="${_value}"
-					Output_variables_file "_external_ipv4" "${_external_ipv4}"
-				;;
-				-Eipv6)
-					_prefix="" ; _key=""
-					_external_ipv6="${_value}"
-					Output_variables_file "_external_ipv6" "${_external_ipv6}"
 				;;
 				-ipv6)
 					_prefix="" ; _key=""
@@ -405,6 +409,11 @@ Arg_checker(){
 					_relay_types="${_value}"
 					Output_variables_file "_relay_types" "${_relay_types}"
 				;;
+				-TRCP)
+					_prefix="" ; _key=""
+					_tor_relay_control_port="${_value}"
+					Output_variables_file "_tor_relay_control_port" "${_tor_relay_control_port}"
+				;;
 				-TST)
 					_prefix="" ; _key=""
 					_service_types="${_value}"
@@ -419,6 +428,11 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_tor_service_clients="${_value}"
 					Output_variables_file "_tor_service_clients" "${_tor_service_clients}"
+				;;
+				-TSA)
+					_prefix="" ; _key=""
+					_tor_hidden_service_addr="${_value}"
+					Output_variables_file "_tor_hidden_service_addr" "${_tor_hidden_service_addr}"
 				;;
 				-TSP)
 					_prefix="" ; _key=""
@@ -444,6 +458,16 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_tor_or_port="${_value}"
 					Output_variables_file "_tor_or_port" "${_tor_or_port}"
+				;;
+				-TTP)
+					_prefix="" ; _key=""
+					_tor_trans_port="${_value}"
+					Output_variables_file "_tor_trans_port" "${_tor_trans_port}"
+				;;
+				-TVAN)
+					_prefix="" ; _key=""
+					_tor_virtual_addr_network="${_value}"
+					Output_variables_file "_tor_virtual_addr_network" "${_tor_virtual_addr_network}"
 				;;
 				-t)
 					_prefix="" ; _key=""
