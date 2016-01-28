@@ -51,7 +51,7 @@ Write_iptables_multiport_action(){
 #	File : ${_script_dir}/functions/fail2ban/actions_writers/write_iptables_multiport_action.sh
 #	Option | Variable | Default | Notes
 #	-------|----------|---------|------
-#	-F2BD= | _fail2ban_dir | /etc | Sets base directory to look for `/etc/fail2ban`
+#	-F2BD= | _fail2ban_dir | /etc | Sets base directory to look for [/etc/fail2ban]
 #
 #	Notes : this action is activated with the following line in ${_fail2ban_dir:-/etc}/fail2ban/jail.local
 #	banaction = iptables-multiport
