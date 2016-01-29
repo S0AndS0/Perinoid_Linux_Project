@@ -45,6 +45,7 @@ Arg_checker(){
 				-ipv6=*|--enable-ipv6=*)		_key="-ipv6" ;		_value="${_KEY#*=}" ;;
 				-Lipv4=*|--local-ipv4=*)		_key="-Lipv4" ;		_value="${_KEY#*=}" ;;
 				-Lipv6=*|--local-ipv6=*)		_key="-Lipv6" ;		_value="${_KEY#*=}" ;;
+				-MFD=*|--metasploit-framework-dir=*)			_key="-MFD" ;		_value="${_KEY#*=}" ;;
 				-ND=*|--nginx-dir=*)			_key="-ND" ;		_value="${_KEY#*=}" ;;
 				-NHP=*|--nginx-http_port=*)		_key="-NHP" ;		_value="${_KEY#*=}" ;;
 				-NI=*|--nginx-index=*)			_key="-NI" ;		_value="${_KEY#*=}" ;;
@@ -274,6 +275,11 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_nat_ipv6="${_value}"
 					Output_variables_file "_nat_ipv6" "${_nat_ipv6}"
+				;;
+				-MFD)
+					_prefix="" ; _key=""
+					_metasploit_dir="${_value}"
+					Output_variables_file "_metasploit_dir" "${_metasploit_dir}"
 				;;
 				-ND)
 					_prefix="" ; _key=""
