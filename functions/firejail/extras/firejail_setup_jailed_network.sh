@@ -11,8 +11,11 @@ Firejail_setup_jailed_network(){
 			ifconfig $_jailed_interface $_jailed_nat_host
 			echo '1' > /proc/sys/net/ipv4/ip_forward
 			iptables -t nat -A PREROUTING -p tcp --dport $_dport -j DNAT --to ${_jailed_nat_range}:${_dport}
-			iptables -A FORWARD -i $_jailed_interface -m state --state NEW,INVALID -j DROP
-			ipatbles -A INPUT -i $_jailed_interface -m state --state NEW,INVALID -j DROP
+			iptables -A FORWARD -i $_jailed_interface -m state --state INVALID -j DROP
+			iptables -A FORWARD -i $_external_interface -o $_jailed_interface -p tcp -m tcp --dport ${_dport} -j ACCEPT
+			iptables -A FORWARD -i $_external_interface -o $_jailed_interface -m state --state RELATED,ESTABLISHED -j ACCEPT
+			iptables -A FORWARD -i $_jailed_interface -j ACCEPT
+			ipatbles -A INPUT -i $_jailed_interface -m state --state INVALID -j DROP
 			iptables -t nat -A POSTROUTING -o $_external_interface -s $_jailed_nat_range -j MASQUERADE
 		;;
 		disabled|no)
