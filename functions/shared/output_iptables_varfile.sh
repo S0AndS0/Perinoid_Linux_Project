@@ -20,7 +20,9 @@ Output_iptables_varfile(){
 		case ${_application_name} in
 			bind|bind9)
 				#_bind9_ipv4
-				#_bind9_port
+				if [ "${_bind9_port}" != "0" ]; then
+					_tcp_ports="${_bind9_port},${_tcp_ports}"
+				fi
 			;;
 			firejail)
 				#_firejail_bridge_interface
@@ -33,8 +35,12 @@ Output_iptables_varfile(){
 				
 			;;
 			nginx)
-				#_nginx_http_port
-				#_nginx_ssl_port
+				if [ "${#_nginx_http_port}" != "0" ]; then
+					_tcp_ports="${_nginx_http_port},${_tcp_ports}"
+				fi
+				if [ "${#_nginx_ssl_port}" != "0" ]; then
+					_tcp_ports="${_nginx_ssl_port},${_tcp_ports}"
+				fi
 			;;
 			privoxy)
 				
@@ -49,17 +55,25 @@ Output_iptables_varfile(){
 				for _node_types in ${_tor_node_types//,/ }; do
 					case $_node_types in
 						*)
-							#_tor_or_port
+							if [ "${#_tor_or_port}" != "0" ]; then
+								_tcp_ports="${_tor_or_port},${_tcp_ports}"
+							fi
 						;;
 						bridge)
 							for _bridge_type in ${_bridge_types//,/ }; do
 								case $_bridge_type in
 									privet)
-										#_tor_dns_port
+										if [ "${#_tor_dns_port}" != "0" ]; then
+											_tcp_ports="${_tor_dns_port},${_tcp_ports}"
+										fi
 									;;
 									public)
-										#_tor_dir_port
-										#_tor_web_port
+										if [ "${#_tor_dir_port}" != "0" ]; then
+											_tcp_ports="${_tor_dir_port},${_tcp_ports}"
+										fi
+										if [ "${#_tor_web_port}" != "0" ]; then
+											_tcp_ports="${_tor_web_port},${_tcp_ports}"
+										fi
 									;;
 								esac
 							done
@@ -68,20 +82,32 @@ Output_iptables_varfile(){
 							#_bridge_ipv4_to_add
 							#_bridge_ipv6_to_add
 							#_bridge_port_to_add
-							#_openssh_port
-							#_tor_dns_port
-							#_tor_ssh_port
+							if [ "${#_openssh_port}" != "0" ]; then
+								_tcp_ports="${_openssh_port},${_tcp_ports}"
+							fi
+							if [ "${#_tor_dns_port}" != "0" ]; then
+								_tcp_ports="${_tor_dns_port},${_tcp_ports}"
+							fi
+							if [ "${#_tor_ssh_port}" != "0" ]; then
+								_tcp_ports="${_tor_ssh_port},${_tcp_ports}"
+							fi
 							#_tor_socks_bind_address
 							#_tor_socks_listen_address
 						;;
 						exit)
-							#_tor_dir_port
-							#_tor_web_port
+							if [ "${#_tor_dir_port}" != "0" ]; then
+								_tcp_ports="${_tor_dir_port},${_tcp_ports}"
+							fi
+							if [ "${#_tor_web_port}" != "0" ]; then
+								_tcp_ports="${_tor_web_port},${_tcp_ports}"
+							fi
 						;;
 						relay)
 							#_tor_relay_bandwidth_rate
 							#_tor_relay_bandwidth_burst
-							#_tor_dir_port
+							if [ "${#_tor_dir_port}" != "0" ]; then
+								_tcp_ports="${_tor_dir_port},${_tcp_ports}"
+							fi
 						;;
 					esac
 				done
@@ -126,17 +152,17 @@ Output_iptables_varfile(){
 #	-FNipv4			_firejail_nat_ipv4			Sets 
 #	-NHP			_nginx_http_port			Sets port that Nginx will bind to for http traffic
 #	-NSP			_nginx_ssl_port				Sets port that Nginx will bind to for ssl traffic
-#					_tor_or_port				Sets
-#					_tor_dns_port				Sets
-#					_tor_dir_port				Sets 
-#					_tor_web_port				Sets
-#					_bridge_ipv4_to_add			Sets
-#					_bridge_ipv6_to_add			Sets
+#	-TOP			_tor_or_port				Sets
+#	-TDNSP			_tor_dns_port				Sets
+#	-TDP			_tor_dir_port				Sets 
+#	-TWP			_tor_web_port				Sets
+#	-ABipv4			_bridge_ipv4_to_add			Sets
+#	-ABipv6			_bridge_ipv6_to_add			Sets
 #					_bridge_port_to_add			Sets
-#					_openssh_port				Sets
-#					_tor_ssh_port				Sets
-#					_tor_socks_bind_address		Sets
-#					_tor_socks_listen_address	Sets
+#	-OSP			_openssh_port				Sets
+#	-TSP			_tor_ssh_port				Sets
+#	-TSBA			_tor_socks_bind_address		Sets
+#	-TSLA			_tor_socks_listen_address	Sets
 #					_tor_relay_bandwidth_rate	Sets
 #					_tor_relay_bandwidth_burst	Sets
 #					_external_ipv4				Sets
