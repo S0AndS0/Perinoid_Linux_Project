@@ -12,7 +12,7 @@ Torrc_service_configs(){
 			echo 'ClientOnly 0' | tee -a ${_tor_dir}/torrc-open-web
 			echo 'DataDirectory /var/lib/tor_open-web' | tee -a ${_tor_dir}/torrc-open-web
 			echo 'HiddenServiceDir /var/lib/tor_open-web/hidden_service/' | tee -a ${_tor_dir}/torrc-open-web
-			echo "HiddenServicePort ${_nginx_http_port} ${_tor_hidden_service_addr:-127.0.0.1}:${_tor_web_port}" | tee -a ${_tor_dir}/torrc-open-web
+			echo "HiddenServicePort ${_tor_web_port} ${_tor_hidden_service_addr:-127.0.0.1}:${_nginx_http_port}" | tee -a ${_tor_dir}/torrc-open-web
 			echo 'ExcludeSingleHopRelays 1' | tee -a ${_tor_dir}/torrc-open-web
 		;;
 		mirror)
@@ -20,7 +20,7 @@ Torrc_service_configs(){
 			echo 'ClientOnly 0' | tee -a ${_tor_dir}/torrc-open-mirror
 			echo 'DataDirectory /var/lib/tor_open-mirror' | tee -a ${_tor_dir}/torrc-open-mirror
 			echo 'HiddenServiceDir /var/lib/tor_open-mirror/hidden_service/' | tee -a ${_tor_dir}/torrc-open-mirror
-			echo "HiddenServicePort ${_nginx_http_port} ${_tor_hidden_service_addr:-127.0.0.1}:${_tor_web_port}" | tee -a ${_tor_dir}/torrc-open-mirror
+			echo "HiddenServicePort ${_tor_web_port} ${_tor_hidden_service_addr:-127.0.0.1}:${_nginx_http_port}" | tee -a ${_tor_dir}/torrc-open-mirror
 			echo 'ExcludeSingleHopRelays 1' | tee -a ${_tor_dir}/torrc-open-mirror
 		;;
 		ssh)
@@ -28,7 +28,7 @@ Torrc_service_configs(){
 			echo 'ClientOnly 0' | tee -a ${_tor_dir}/torrc-open-ssh
 			echo 'DataDirectory /var/lib/tor_open-ssh' | tee -a ${_tor_dir}/torrc-open-ssh
 			echo 'HiddenServiceDir /var/lib/tor_open-ssh/hidden_service/' | tee -a ${_tor_dir}/torrc-open-ssh
-			echo "HiddenServicePort ${_openssh_port} ${_tor_hidden_service_addr:-127.0.0.1}:${_tor_ssh_port}" | tee -a ${_tor_dir}/torrc-open-ssh
+			echo "HiddenServicePort ${_tor_ssh_port} ${_tor_hidden_service_addr:-127.0.0.1}:${_openssh_port}" | tee -a ${_tor_dir}/torrc-open-ssh
 			echo 'ExcludeSingleHopRelays 1' | tee -a ${_tor_dir}/torrc-open-ssh
 		;;
 		esac
@@ -42,18 +42,18 @@ Torrc_service_configs(){
 			echo 'HiddenServiceDir /var/lib/tor_auth-web/hidden_service/' | tee -a ${_tor_dir}/torrc-auth-web
 			echo 'PublishHidServDescriptors 0' | tee -a ${_tor_dir}/torrc-auth-web
 			echo "HiddenServiceAuthorizedClient stealth ${_tor_service_clients}" | tee -a ${_tor_dir}/torrc-auth-web
-			echo "HiddenServicePort ${_nginx_http_port} 127.0.0.1:${_tor_web_port}" | tee -a ${_tor_dir}/torrc-auth-web
+			echo "HiddenServicePort ${_tor_web_port} 127.0.0.1:${_nginx_http_port}" | tee -a ${_tor_dir}/torrc-auth-web
 			echo 'ExcludeSingleHopRelays 1' | tee -a ${_tor_dir}/torrc-auth-web
 		;;
 		ssh)
 			Overwrite_config_checker "${_tor_directory}/tor/torrc-auth-ssh"
-			echo 'ClientOnly 0' | tee -a ${_tor_dir}/torrc-auth-web
-			echo 'DataDirectory /var/lib/tor_auth-ssh' | tee -a ${_tor_dir}/torrc-auth-web
-			echo 'HiddenServiceDir /var/lib/tor_auth-ssh/hidden_service/' | tee -a ${_tor_dir}/torrc-auth-web
+			echo 'ClientOnly 0' | tee -a ${_tor_dir}/torrc-auth-ssh
+			echo 'DataDirectory /var/lib/tor_auth-ssh' | tee -a ${_tor_dir}/torrc-auth-ssh
+			echo 'HiddenServiceDir /var/lib/tor_auth-ssh/hidden_service/' | tee -a ${_tor_dir}/torrc-auth-ssh
 			echo 'PublishHidServDescriptors 0' | tee -a ${_tor_dir}/torrc-auth-ssh
-			echo "HiddenServiceAuthorizedClient stealth ${_tor_service_clients}" | tee -a ${_tor_dir}/torrc-auth-web
-			echo "HiddenServicePort ${_openssh_port} 127.0.0.1:${_tor_ssh_port}" | tee -a ${_tor_dir}/torrc-auth-web
-			echo 'ExcludeSingleHopRelays 1' | tee -a ${_tor_dir}/torrc-auth-web
+			echo "HiddenServiceAuthorizedClient stealth ${_tor_service_clients}" | tee -a ${_tor_dir}/torrc-auth-ssh
+			echo "HiddenServicePort ${_tor_ssh_port} 127.0.0.1:${_openssh_port}" | tee -a ${_tor_dir}/torrc-auth-ssh
+			echo 'ExcludeSingleHopRelays 1' | tee -a ${_tor_dir}/torrc-auth-ssh
 		;;
 		esac
 	done
