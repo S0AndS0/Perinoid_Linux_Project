@@ -123,4 +123,11 @@ SOCKSPort 127.0.0.1:9050
 #	and easier to trace back to your location.
 
 ## Linux/Android define entrance bridge(s) to use for first hop into Tor network
+ UseBridges 1
+## Above line allows for bellow to be processed
+ Bridge obfs3 <bridge_ipv4_to_add>:<bridge_port_to_add> <bridge_finger_print_to_add>
+## Note "obfs3" maybe left off entirly by some bridges as well as <bridge_finger_print_to_add>
+#	Alternet values for "obfs3" are "obfs2" "obfs4" ...
+#	If the bridge uses IPv6 address then soround the IP with "[IPv6]"
+ Bridge obfs3 [<bridge_ipv6_to_add>]:<bridge_port_to_add> <bridge_finger_print_to_add>
 
