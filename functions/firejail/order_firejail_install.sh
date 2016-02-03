@@ -15,19 +15,19 @@ Order_firejail_install(){
 	for _node_type in ${_tor_node_types//#/ }; do
 		case ${_node_type} in
 		bridge*)
-			
+			#Firejail_setup_jailed_network -FBF="" -FBI="" -FHI="" -FBipv4="" -FNipv4=""
 		;;
 		client*)
-			
+			#Firejail_setup_jailed_network -FBF="" -FBI="" -FHI="" -FBipv4="" -FNipv4=""
 		;;
 		exit*)
-			
+			#Firejail_setup_jailed_network -FBF="" -FBI="" -FHI="" -FBipv4="" -FNipv4=""
 		;;
 		relay*)
-			
+			#Firejail_setup_jailed_network -FBF="" -FBI="" -FHI="" -FBipv4="" -FNipv4=""
 		;;
 		service*)
-			
+			#Firejail_setup_jailed_network -FBF="" -FBI="" -FHI="" -FBipv4="" -FNipv4=""
 		;;
 		esac
 	done
@@ -38,4 +38,15 @@ Order_firejail_install(){
 }
 ### Order_firejail_install_help order_firejail_install_help order_firejail_install.sh
 #	File:	${_script_dir}/functions/firejail/order_firejail_install.sh
+#	Argument	Variable			Default
+#	[-B=...]	_tor_bridge_nickname 		Bridge_Node
+#	[-E=...]	_tor_exit_nickname 			Exit_Node
+#	[-FBF=...]	_firejail_bridge_forward	enabled
+#	[-FBI=...]	_firejail_bridge_interface	br0
+#	[-FHI=...]	_firejail_host_interface	eth0
+#	[-FSN=...]	_firejail_service_name		nginx
+#	[-FBipv4=...]	_firejail_bridge_ipv4	10.10.20.1
+#	[-FNipv4=...]	_firejail_nat_ipv4		10.10.20.0
+#	[-R=...]		_tor_relay_nickname 	Relay_Node
+#	[-T=...]		_tor_node_types 		client
 ####
