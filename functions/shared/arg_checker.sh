@@ -25,6 +25,8 @@ Arg_checker(){
 				-B9ipv4=*|--bind9-ipv4=*)		_key="-B9ipv4" ;	_value="${_KEY#*=}" ;;
 				-B9P=*|--bind9-port=*)			_key="-B9P" ;		_value="${_KEY#*=}" ;;
 				-C=*|--connections=*)			_key="-C" ;		_value="${_KEY#*=}" ;;
+				-chm=*|--chroot-mount=*)			_key="-chm" ;		_value="${_KEY#*=}" ;;
+				-chu=*|--chroot-unmount=*)			_key="-chu" ;		_value="${_KEY#*=}" ;;
 				-E=*|--exit-nickname=*)			_key="-E" ;		_value="${_KEY#*=}" ;;
 				-EA=*|--email-address=*)		_key="-EA" ;		_value="${_KEY#*=}" ;;
 				-Eipv4=*|--external-ipv4=*)		_key="-Eipv4" ;		_value="${_KEY#*=}" ;;
@@ -178,6 +180,21 @@ Arg_checker(){
 					_prefix="" ; _key=""
 					_connection_count="${_value}"
 					Output_variables_file "_connection_count" "${_connection_count}"
+				;;
+				-chm)
+					_prefix="" ; _key=""
+					_arg_mount="${_value}"
+#					Output_variables_file "_arg_mount" "${_arg_mount}"
+#					_mount_full_chroot "${_arg_mount}"
+#					exit $?
+				;;
+				-chu)
+					_prefix="" ; _key=""
+					_arg_un_mount="${_value}"
+#					Output_variables_file "_arg_mount" "${_arg_mount}"
+#					_un_mount_full_chroot "${_arg_un_mount}"
+#					echo "## Unmounted : [${_arg_un_mount}]"
+#					exit $?
 				;;
 				-E)
 					_prefix="" ; _key=""
